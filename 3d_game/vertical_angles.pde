@@ -22,13 +22,13 @@ static ArrayList<Float> nearVerticalAngles;
   public static ArrayList<Float> calcNearVerticalAngles(float block_x, float block_y, float block_z) {
     
     
-    println("NV called");
+    //println("NV called");
     /*
      calculate the hypotenuse of the first RA triangle between player (x, z) and block (x, z)
        b
      ------ (bx, bz)
      |    /
-    a   |   / 
+    a|   / 
      |  / c
      | /
      |/
@@ -55,9 +55,9 @@ static ArrayList<Float> nearVerticalAngles;
        /  |                  (by)
       /  |                  /
     c  /  |  a                   /  |
-      /      |                  /     |
-     /    |             e /        |d
-    /_______|            /          |
+      /      |               /     |
+     /    |             e   /        |d
+    /_______|              /          |
         b                 /______________|
                       c    (player y)  
     
@@ -65,7 +65,7 @@ static ArrayList<Float> nearVerticalAngles;
      */
     
     
-    float d = Math.abs(block_y -player.ypos -1); //we want the angle from the bottom to top of block, so -1
+    float d = Math.abs(block_y -player.ypos) -1; //we want the angle from the bottom to top of block, so -1
     float e = (float) Math.sqrt( (c*c) + (d*d) );
     
     //e, d, c == RA triangle
@@ -103,13 +103,13 @@ static ArrayList<Float> nearVerticalAngles;
     //cos(A) = (b^2 + c^2 - a^2) / (2 * b * c)
     float h=1;
     float angleE = ang.findCos(e, g, h);
-    float angleF = 45- angleD - angleE;
-    angleD+=45;
+    float angleF = Math.abs(/*HALF_SCREEN_DEGREES*/45 - angleD - angleE);
+    angleD+= HALF_SCREEN_DEGREES;
     
     ArrayList<Float> nv_angles = new ArrayList<Float>();
-    println(angleD);
-    println(angleE);
-    println(angleF);
+    nv_angles.add(angleD);
+    nv_angles.add(angleE);
+    nv_angles.add(angleF);
 
     
     
@@ -162,7 +162,7 @@ static ArrayList<Float> nearVerticalAngles;
      */
     
     
-    float d = Math.abs(block_y -player.ypos-1); //we want the angle from the bottom to top of block, so -1
+    float d = Math.abs(block_y -player.ypos) -1; //we want the angle from the bottom to top of block, so -1
     float e = (float) Math.sqrt( (c*c) + (d*d) );
     
     //e, d, c == RA triangle
@@ -173,7 +173,7 @@ static ArrayList<Float> nearVerticalAngles;
     
     
     
-    float f = d+1;
+    float f = d+ 1;
     float g = (float) Math.sqrt( (c*c) + (f*f) );
     
     //e_one=e;
@@ -200,8 +200,8 @@ static ArrayList<Float> nearVerticalAngles;
     //cos(A) = (b^2 + c^2 - a^2) / (2 * b * c)
     float h=1;
     float angleE = ang.findCos(e, g, h);
-    float angleF = 45- angleD - angleE;
-    angleD+=45;
+    float angleF = Math.abs(/*HALF_SCREEN_DEGREES*/45 - angleD - angleE);
+    angleD+= HALF_SCREEN_DEGREES;
     
     ArrayList<Float> fv_angles = new ArrayList<Float>();
     fv_angles.add(angleD);
@@ -215,7 +215,7 @@ static ArrayList<Float> nearVerticalAngles;
   
   
   
-  public ArrayList< ArrayList<Float>> calcVerticalAngles(float block_x, float block_y, float block_z) {
+  public ArrayList< ArrayList<Float>> calcVerticalAngles(float block_x, float block_y, float block_z, float farAngleCoord) {
     //angle documentation is above
     
     
@@ -223,11 +223,9 @@ static ArrayList<Float> nearVerticalAngles;
     //  nearVerticalAngles= calcNearVerticalAngles(block_x, block_y, block_z);
     //}
     
-    ArrayList<Float> NV = calcNearVerticalAngles(block_x, block_y, block_z);
-    
     
     ArrayList< ArrayList<Float>> VAs = new ArrayList<ArrayList<Float>>();
-    VAs.add(NV);
+    VAs.add(calcNearVerticalAngles(block_x, block_y, block_z));
     VAs.add(calcFarVerticalAngles(block_x, block_y, block_z));
     
     

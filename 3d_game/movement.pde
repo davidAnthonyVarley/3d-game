@@ -1,5 +1,6 @@
 
 void keyPressed() {
+  loop();
   println("Keycode: "+keyCode);
   
   int c = keyCode;
@@ -9,25 +10,30 @@ void keyPressed() {
   switch (c) {
     
     case 'A':
-      player.xpos--;
+    case 'a':
+      player.xpos++;
       break;
     
     //d
     case 'D':
-      player.xpos++;
+    case 'd':
+      player.xpos--;
       break;
     
     case 'W':
+    case 'w':
       player.zpos++;
       break;
     case 'S':
+    case 's':
       player.zpos--;
       break;
     
     case ' ':
       player.ypos++;
      break;
-    case 'U': //go down
+    case 'V': //go down
+    case 'v':
       player.ypos--;
       break;
     
@@ -35,7 +41,7 @@ void keyPressed() {
   
   }
   catch (IndexOutOfBoundsException e) {
-    
+    //do nothing, ie, don't move the player out of bounds
   }
   
   println("x:"+player.xpos+" y:"+player.ypos+" z:"+player.zpos+"\n\n");

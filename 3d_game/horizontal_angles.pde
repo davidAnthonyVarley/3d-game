@@ -27,12 +27,18 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz) {
     float b = Math.abs(by - player.ypos +1);
     float c = (float) Math.sqrt( (a*a) + (b*b) );
     
-    float d = Math.abs(bx - player.xpos -1);
+    float d = Math.abs(bx - player.xpos);
+    if (d!=0) {
+      d--;
+    }
+    
     float e = (float) Math.sqrt( (d*d) + (c*c) );
     float angleD = ang.findCos(c, e, d);
     
-    float f = d+1;
+    float f = d + 1;
     float g = (float) Math.sqrt( (e*e) + (f*f) );
+    
+    //println(a, b, c, d, e, f, g);
     
     float angleE = ang.findCos(g, e, 1);
     
@@ -51,15 +57,17 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz) {
     
     
     */
-    float angleF = 45 - angleD - angleE;
-    angleD+=45;
+    float angleF = Math.abs(/*HALF_SCREEN_DEGREES*/45 - angleD - angleE);
+    angleD+= HALF_SCREEN_DEGREES;
     
-    ArrayList<Float> angles = new ArrayList<Float>();
-    angles.add(angleD);
-    angles.add(angleE);
-    angles.add(angleF);
+    ArrayList<Float> fh_angles = new ArrayList<Float>();
+    fh_angles.add(angleD);
+    fh_angles.add(angleE);
+    fh_angles.add(angleF);
     
-    return angles;
+    //println(fh_angles);
+    
+    return fh_angles;
   }
   
   
@@ -85,7 +93,13 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz) {
     float b = Math.abs(by - player.ypos);
     float c = (float) Math.sqrt( (a*a) + (b*b) );
     
-    float d = Math.abs(bx - player.xpos-1);
+    float d = Math.abs(bx - player.xpos);
+    if (d!=0) {
+      d--;
+    }
+    
+    
+    
     float e = (float) Math.sqrt( (d*d) + (c*c) );
     float angleD = ang.findSin(d, e, 90);
     
@@ -109,13 +123,15 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz) {
     
     
     */
-    float angleF = 45 - angleD - angleE;
-    angleD+=45;
+    float angleF = Math.abs(/*HALF_SCREEN_DEGREES*/45 - angleD - angleE);
+    angleD+= HALF_SCREEN_DEGREES;
     
-    ArrayList<Float> angles = new ArrayList<Float>();
-    angles.add(angleD);
-    angles.add(angleE);
-    angles.add(angleF);
+    ArrayList<Float> nh_angles = new ArrayList<Float>();
+    nh_angles.add(angleD);
+    nh_angles.add(angleE);
+    nh_angles.add(angleF);
     
-    return angles;
+    return nh_angles;
   }
+  
+  

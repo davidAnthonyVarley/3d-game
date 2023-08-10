@@ -37,7 +37,7 @@
           //i is individual index in array
           
           world.get(twoD).get(oneD).add(EMPTY);
-          println(twoD+" "+oneD+" "+i);
+          //println(twoD+" "+oneD+" "+i);
         }
       }
       println("\n");
@@ -69,7 +69,7 @@
           
           this.getGrid().get(twoD).get(oneD).set(i, colour);
           //this.get(twoD).get(oneD).add(colours[0]);
-          println(twoD+" "+oneD+" "+i+" has been changed to "+colour);
+          //println(twoD+" "+oneD+" "+i+" has been changed to "+colour);
         }
       }
       println("\n");
@@ -150,10 +150,11 @@
         if (  block_colour!=EMPTY ) {
           
           fill( (int) block_colour);
-          rect(xpos, ypos, BLOCK_WIDTH, BLOCK_HEIGHT);
+          //rect(xpos, ypos, BLOCK_WIDTH, BLOCK_HEIGHT);
+          d.drawQuad(i, j, z_index);
         }
         
-        println("x: "+i+", y: "+j+", z: "+z_index+", colour: "+grid.get(i).get(j));
+        //println("x: "+i+", y: "+j+", z: "+z_index+", colour: "+grid.get(i).get(j));
         ypos+=BLOCK_HEIGHT;
         
       }
@@ -168,11 +169,15 @@
    public void ThreeDimensional_Draw(ArrayList< ArrayList< ArrayList<Float>>> grid) {
      
      //draw from the back
-     for (int i = grid.size() - 1; i>-1; i--) {
+     for (int i = grid.size() - 1; i>player.zpos-1; i--) {
        TwoDimensional_Draw(grid.get(i), i);
      }
+     
    
  }
+ 
+
+   
  
  
  

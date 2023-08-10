@@ -22,13 +22,15 @@ public class Angles {
     //}
 
     ArrayList< ArrayList<Float>> VAs = new ArrayList<ArrayList<Float>>();
-    VAs.add(calcFarVerticalAngles(block_x, block_y, block_z));
+    VAs.add(calcNearVerticalAngles(block_x, block_y, block_z));
     VAs.add(calcFarVerticalAngles(block_x, block_y, block_z));
     
     return VAs;
   }
   
   public ArrayList< ArrayList< Float>> calcHorizontalAngles(float bx, float by, float bz) {
+    
+    
     ArrayList<Float> nearHA = calcNearHorizontalAngles(bx, by, bz);
     ArrayList<Float> farHA = calcFarHorizontalAngles(bx, by, bz);
     
@@ -75,14 +77,15 @@ public class Angles {
      * 
      */
     
+    //float[] farAngleCoords = findFarAngleCoords(player.findQuadrantOfBlock(x, y));
     
     //near angle first, far angle second
-    ArrayList< ArrayList<Float>> verticalAngles = ang.calcVerticalAngles(x, y, z);
+    ArrayList< ArrayList<Float>> verticalAngles = calcVerticalAngles(x, y, z); //, farAngleCoords[0]);
     //nearVerticalAngles = verticalAngles.get(1);
     //by changing the value of nearVerticalAngle here, it will not change the value of angles[0] above
     //because that is an new, individual variable, and not a pointer to nearVerticalAngle
     
-    ArrayList< ArrayList<Float>> horizontalAngles = ang.calcHorizontalAngles(x, y, z);
+    ArrayList< ArrayList<Float>> horizontalAngles = calcHorizontalAngles(x, y, z);//, farAngleCoords[1]);
     ArrayList< ArrayList<Float>> angles = new ArrayList< ArrayList<Float>>();
     
     //will this create duplicate objects, or just add the pointers?
@@ -90,6 +93,8 @@ public class Angles {
     angles.add(verticalAngles.get(1));
     angles.add(horizontalAngles.get(0));
     angles.add(horizontalAngles.get(1));
+    
+    //println(angles);
     
     return angles;
   }
@@ -105,6 +110,11 @@ public class Angles {
       
       double res = (a*a) + (b*b) - (c*c);
       res/= (2*a*b);
+      
+      if (res>1) {
+        //res = 1/res;
+        //res-=0.1;
+      }
       
       double resultRadians = Math.acos(res);
       float angle= (float) Math.toDegrees(resultRadians);
@@ -123,6 +133,38 @@ public class Angles {
       
       return angle;
     }
+    
+    
+    
+    
+    //this will determine whether I go from top to bottom to calc the angle below me,
+    //or bottom to top for the angle above me
+    
+    //in order of far vertical, far horizontal
+    public float[] findFarAngleCoords(ArrayList<String> block_quadrant) {
+      
+      float farVACoord=0;
+      float farHACoord=0;
+      
+      if (block_quadrant.get(0).equals("Right") ) {// && (bpos.get(1).equals("Higher")
+        farHACoord=1;
+      }
+      else {
+        farHACoord=-1;
+      }
+      
+      if (block_quadrant.get(1).equals("Higher")) {
+        farVACoord=1;
+      }
+      else {
+        farVACoord=-1;
+      }
+      
+      float[] farAngleCoords= {farVACoord, farHACoord};
+      return farAngleCoords;
+    }
+    
+    
     
     
     

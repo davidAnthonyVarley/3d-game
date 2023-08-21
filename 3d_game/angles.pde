@@ -13,7 +13,7 @@ public class Angles {
   //5000 so it doesn't get mixed up with any valid angles initially
   
   //will be used to save half of angle calculations
-  public ArrayList< ArrayList<Float>> calcVerticalAngles(float block_x, float block_y, float block_z) {
+  public ArrayList< ArrayList<Float>> calcVerticalAngles(float block_x, float block_y, float block_z, String direction) {
     //angle documentation is above
     
     
@@ -22,17 +22,17 @@ public class Angles {
     //}
 
     ArrayList< ArrayList<Float>> VAs = new ArrayList<ArrayList<Float>>();
-    VAs.add(calcNearVerticalAngles(block_x, block_y, block_z));
-    VAs.add(calcFarVerticalAngles(block_x, block_y, block_z));
+    VAs.add(calcNearVerticalAngles(block_x, block_y, block_z, direction));
+    VAs.add(calcFarVerticalAngles(block_x, block_y, block_z, direction));
     
     return VAs;
   }
   
-  public ArrayList< ArrayList< Float>> calcHorizontalAngles(float bx, float by, float bz) {
+  public ArrayList< ArrayList< Float>> calcHorizontalAngles(float bx, float by, float bz, String direction) {
     
     
-    ArrayList<Float> nearHA = calcNearHorizontalAngles(bx, by, bz);
-    ArrayList<Float> farHA = calcFarHorizontalAngles(bx, by, bz);
+    ArrayList<Float> nearHA = calcNearHorizontalAngles(bx, by, bz, direction);
+    ArrayList<Float> farHA = calcFarHorizontalAngles(bx, by, bz, direction);
     
     ArrayList< ArrayList< Float>> HAs = new ArrayList< ArrayList< Float>>();
     HAs.add(nearHA);
@@ -43,7 +43,7 @@ public class Angles {
   
   
   
-  public ArrayList< ArrayList<Float>> calcAngles(float x, float y, float z) {
+  public ArrayList< ArrayList<Float>> calcAngles(float x, float y, float z, String direction) {
     
     //this will return the angles from a player to a block
     //going from near vertical angle, far vertical angle, near horizontal angle, far horizontal angle, ie,
@@ -80,12 +80,12 @@ public class Angles {
     //float[] farAngleCoords = findFarAngleCoords(player.findQuadrantOfBlock(x, y));
     
     //near angle first, far angle second
-    ArrayList< ArrayList<Float>> verticalAngles = calcVerticalAngles(x, y, z); //, farAngleCoords[0]);
+    ArrayList< ArrayList<Float>> verticalAngles = calcVerticalAngles(x, y, z, direction); //, farAngleCoords[0]);
     //nearVerticalAngles = verticalAngles.get(1);
     //by changing the value of nearVerticalAngle here, it will not change the value of angles[0] above
     //because that is an new, individual variable, and not a pointer to nearVerticalAngle
     
-    ArrayList< ArrayList<Float>> horizontalAngles = calcHorizontalAngles(x, y, z);//, farAngleCoords[1]);
+    ArrayList< ArrayList<Float>> horizontalAngles = calcHorizontalAngles(x, y, z, direction);//, farAngleCoords[1]);
     ArrayList< ArrayList<Float>> angles = new ArrayList< ArrayList<Float>>();
     
     //will this create duplicate objects, or just add the pointers?
@@ -112,7 +112,7 @@ public class Angles {
       res/= (2*a*b);
       
       if (res>1) {
-        //res = 1/res;
+        res = 1/res;
         //res-=0.1;
       }
       
@@ -126,12 +126,18 @@ public class Angles {
     public float findSin(float length_a, float length_b, float angleB) {
       //angleA is the important angle, that is the length that the angle we are
       //finding is facing
-      
     
       double resultRadians = Math.asin( (length_a / length_b));
       float angle= (float) Math.toDegrees(resultRadians);
       
+      
+      
       return angle;
+    }
+    
+    public float findHypotenuse( float adjacent, float opposite) {
+      double res = Math.sqrt((adjacent*adjacent) + (opposite*opposite));
+      return (float) res;
     }
     
     
@@ -141,6 +147,7 @@ public class Angles {
     //or bottom to top for the angle above me
     
     //in order of far vertical, far horizontal
+    /*
     public float[] findFarAngleCoords(ArrayList<String> block_quadrant) {
       
       float farVACoord=0;
@@ -163,6 +170,7 @@ public class Angles {
       float[] farAngleCoords= {farVACoord, farHACoord};
       return farAngleCoords;
     }
+    */
     
     
     

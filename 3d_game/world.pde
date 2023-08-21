@@ -137,8 +137,6 @@
      
      
      stroke(0);
-     int xpos=0;
-     int ypos=0;
      
      for (int i = 0; i<grid.size(); i++) {
        
@@ -150,16 +148,18 @@
         if (  block_colour!=EMPTY ) {
           
           fill( (int) block_colour);
+          /*
+          fill(colour);
+          colour+=10;
+          noStroke();
+          */
           //rect(xpos, ypos, BLOCK_WIDTH, BLOCK_HEIGHT);
-          d.drawQuad(i, j, z_index);
+          d.drawQuad(i, j, z_index, "Z Axis");//Cube(i, j, z_index);
         }
         
         //println("x: "+i+", y: "+j+", z: "+z_index+", colour: "+grid.get(i).get(j));
-        ypos+=BLOCK_HEIGHT;
         
       }
-      xpos+=BLOCK_WIDTH;
-      ypos=0;
        
        
      }

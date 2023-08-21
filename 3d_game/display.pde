@@ -9,13 +9,38 @@ class Display {
     DEGREES_TO_PIXELS_RATIO = SCREEN_X / SCREEN_DEGREES;
   }
   
-  public void drawQuad(float bx, float by, float bz) {
+  public void drawCube(float bx, float by, float bz) {
+    
+    //we only see three sides of a cube in any given position
+    //therefore, we only need to draw three sides, each one facing one axis
+    
+    //ie, if the block is in the upper-right quadrant,
+    //draw sides 4, 2, 1
+    
+    
+    
+    fill(#FFA900);
+    drawQuad(bx, by, bz, "Z Axis");
+    println("\n");
+    fill(#00A900);
+    //drawQuad(bx, by, bz, "X Axis");
+    println("\n");
+    //fill(#0000FF);
+    
+    //println(bx, by, bz);
+    //drawQuad(bx, by, bz, "Y Axis");
+    //println("\n\n");
+    
+    
+  }
+  
+  public void drawQuad(float bx, float by, float bz, String direction) {
     //fill(#00FF00);
     //quad(152.5, 80.5, 252, 80, 200, 200, 152, 200);
     //quad(593, 124, 649, 124, 672, 206, 624, 206);
 
     //the following only works for blocks in the upper-right quadrant of the screen
-    ArrayList< ArrayList<Float>> angles = ang.calcAngles(bx, by, bz);
+    ArrayList< ArrayList<Float>> angles = ang.calcAngles(bx, by, bz, direction);
     
     //println(DEGREES_TO_PIXELS_RATIO);
     //println("nH: "+angles.get(2).get(2), "fH: "+angles.get(3).get(2));
@@ -24,15 +49,14 @@ class Display {
     
     if (d.checkIfAllAnglesAreValid(angles)) {
       
-      ArrayList<String> bpos = player.findQuadrantOfBlock(bx, by);
-      float[] coords = findQuadCoords(bx, by, bz, angles, bpos);
+      ArrayList<String> block_quadrant = player.findQuadrantOfBlock(bx, by);
+      float[] coords = findQuadCoords(angles, block_quadrant, direction);
       quad(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7]);
       
     }
   }
   
-  public float[] findQuadCoords(float bx, float by, float bz, ArrayList< ArrayList<Float>> angles, ArrayList<String> block_quadrant) {
-    //ArrayList<String> bpos = player.findQuadrantOfBlock(bx, by);
+  public float[] findQuadCoords(ArrayList< ArrayList<Float>> angles, ArrayList<String> block_quadrant, String direction) {
     
     float y_one=0;
     float y_four=0;
@@ -43,6 +67,8 @@ class Display {
     float x_three=0;
     float x_one=0; 
     float x_two=0;
+    
+    //documentation below
     
  /*   
     x1, y1__________x2, y2
@@ -75,13 +101,10 @@ class Display {
   
   //and so on
   
-  //width, height
-  float w = SCREEN_X / DEGREES_TO_PIXELS_RATIO;
-  float h = SCREEN_Y / DEGREES_TO_PIXELS_RATIO;
   
   //boolean stored as a float
   //float dontDraw=0;
-  
+  /*
   if ( (block_quadrant.get(0).equals("Left")) ) {
       ArrayList<Float> dupea = angles.get(0);
       ArrayList<Float> dupeb = angles.get(1);
@@ -97,8 +120,35 @@ class Display {
       angles.set(2, dupeb);
       angles.set(3, dupea);
   }
+  */
   
+  //width, height
+  float w = SCREEN_X / DEGREES_TO_PIXELS_RATIO;
+  float h = SCREEN_Y / DEGREES_TO_PIXELS_RATIO;
   
+  if (direction.equals("Y Axis")) {
+    ArrayList<Float> dupea = angles.get(0);
+      ArrayList<Float> dupeb = angles.get(1);
+      
+      angles.set(0, dupeb);
+      angles.set(1, dupea);
+      
+      ArrayList<Float> dupec = angles.get(2);
+      ArrayList<Float> duped = angles.get(3);
+      
+      angles.set(2, duped);
+      angles.set(3, dupec);
+
+      
+  }
+  
+  if (direction.equals("X Axis")) {
+    ArrayList<Float> dupea = angles.get(0);
+      ArrayList<Float> dupeb = angles.get(1);
+      
+      angles.set(0, dupeb);
+      angles.set(1, dupea);
+  }
  
     if (  (block_quadrant.get(0).equals("Right")) && (block_quadrant.get(1).equals("Higher"))  ) {
       //angle D
@@ -124,7 +174,7 @@ class Display {
        //println(angles.get(1)+"\n");
        
        
-       //println("B");
+       println("B");
     }
     else if ( (block_quadrant.get(0).equals("Right")) && (block_quadrant.get(1).equals("Lower"))) {
        y_one =   (angles.get(0).get(0) );             //nV
@@ -171,7 +221,17 @@ class Display {
        println("C");
     }
     
-    println(angles.get(0), angles.get(1));
+  //}
+    
+    //println(angles+"\n\n");
+    if (direction.equals("X Axis")) {
+      //println(angles.get(2), angles.get(3));
+    }
+    else if (direction.equals("Y Axis")) {
+      //println(angles.get(0), angles.get(1));
+    }
+    
+    //println( x_one, y_one, x_two, y_two, x_three, y_three, x_four, y_four);
     
     
     float[] coords = { x_one, y_one, x_two, y_two, x_three, y_three, x_four, y_four };
@@ -188,14 +248,23 @@ class Display {
     }
     */
     //DEGREES_TO_PIXELS_RATIO=1;
-    
+    //makePos(coords);
     for (int i=0; i<coords.length; i++) {
       coords[i]*=DEGREES_TO_PIXELS_RATIO;
-      print(coords[i]+" ");
+      //print(coords[i]+" ");
     }
+    
+    //doubleSize(coords);
     println();
     
     return coords;
+  }
+  
+  public void makePos(float[] c) {
+    for (int i=0; i<c.length; i++) {
+      c[i]=Math.abs(c[i]);
+    }
+    
   }
   
   public boolean checkIfAllAnglesAreValid(ArrayList< ArrayList<Float>> angles) {
@@ -211,8 +280,48 @@ class Display {
     return true;
   }
   
+  public void doubleSize(float[] coords) { //ArrayList<String> block_quadrant
+    
+    /*   
+    x1, y1__________x2, y2
+         |          |
+         |          |    
+    x4, y4__________x3, y3
+    
+   */
+ 
+   //x_one, y_one, x_two, y_two, x_three, y_three, x_four, y_four
+ 
+   //find half the distance between each set of vertices
+ 
+    //x2 - x1
+    float top_difference = (coords[2]-coords[0]) / 2;
+    //x3-x4
+    float bottom_difference = (coords[6]-coords[4]) / 2;
+    //y1-y4
+    float left_difference = (coords[1]-coords[7]) / 2;
+    //y2-y3
+    float right_difference = (coords[3]-coords[5]) / 2;
+    
+    coords[0]-= top_difference;
+    coords[2]+= top_difference;
+    
+    coords[4]-=bottom_difference;
+    coords[6]+=bottom_difference;
+    
+    coords[7]-=left_difference;
+    coords[1]+=left_difference;
+    
+    coords[5]-=right_difference;
+    coords[3]+=right_difference;
+    
+    
+  }
+  
+  
   //to help me visualise qrs A B C D
   public void drawQuadrants() {
+    fill(#ffffff);
     rect((width/2)-3, 0, 6, height);
     rect(0, (height/2)-3, width, 6);
     

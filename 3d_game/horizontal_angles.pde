@@ -5,7 +5,7 @@
 
 
 
-public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz) {
+public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, String direction) {
     //remember to change e2 and g2 to e1 and g1 after angles calculated
     //Angles ang = new Angles();
     
@@ -23,20 +23,24 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz) {
     g_one = g_two;
     */
     
-    float a = Math.abs(bz - player.zpos);
-    float b = Math.abs(by - player.ypos +1);
-    float c = (float) Math.sqrt( (a*a) + (b*b) );
+    ArrayList<Float> lines = findTriangle_HorizontalAngles(bx,  by,  bz, direction, "Far");
     
-    float d = Math.abs(bx - player.xpos);
-    if (d!=0) {
-      d--;
-    }
+    //float a = Math.abs(bz - player.zpos);
+    //float b = Math.abs(by - player.ypos +1);
+    float c = lines.get(2);//(float) Math.sqrt( (a*a) + (b*b) );
+    float d = lines.get(3);//Math.abs(bx - player.xpos);
+
     
-    float e = (float) Math.sqrt( (d*d) + (c*c) );
+    float e = ang.findHypotenuse(c, d);
+    //println("E fH:", e);
     float angleD = ang.findCos(c, e, d);
     
-    float f = d + 1;
-    float g = (float) Math.sqrt( (e*e) + (f*f) );
+    float f = lines.get(4);
+    float g = lines.get(5);
+    
+    if (g==5000000) {
+     g = ang.findHypotenuse(e, f);
+    }
     
     //println(a, b, c, d, e, f, g);
     
@@ -71,7 +75,7 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz) {
   }
   
   
-  public static ArrayList<Float> calcNearHorizontalAngles(float bx, float by, float bz) {
+  public static ArrayList<Float> calcNearHorizontalAngles(float bx, float by, float bz, String direction) {
     //remember to change e2 and g2 to e1 and g1 after angles calculated
     
    
@@ -89,22 +93,30 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz) {
     g_one = g_two;
     */
     
-    float a = Math.abs(bz - player.zpos);
-    float b = Math.abs(by - player.ypos);
-    float c = (float) Math.sqrt( (a*a) + (b*b) );
+    ArrayList<Float> lines = findTriangle_HorizontalAngles(bx,  by,  bz, direction, "Near");
+ 
+    //float a = Math.abs(bz - player.zpos);
+    //float b = Math.abs(by - player.ypos +1);
+    float a = lines.get(0);//(float) Math.sqrt( (a*a) + (b*b) );
+    float b = lines.get(1);//Math.abs(bx - player.xpos);
     
-    float d = Math.abs(bx - player.xpos);
-    if (d!=0) {
-      d--;
-    }
+    float c = lines.get(2);//(float) Math.sqrt( (a*a) + (b*b) );
+    float d = lines.get(3);//Math.abs(bx - player.xpos);
     
     
     
-    float e = (float) Math.sqrt( (d*d) + (c*c) );
+    float e = ang.findHypotenuse(c, d);
+    //println("E nH:", e);
     float angleD = ang.findSin(d, e, 90);
     
-    float f = d+1;
-    float g = (float) Math.sqrt( (e*e) + (f*f) );
+    float f = lines.get(4);
+    float g = lines.get(5);
+    
+    if (g==5000000) {
+     g = ang.findHypotenuse(e, f);
+    }
+    //println("g nH:", g);
+    //println(a, b, c, d, e, f, g);
     
     float angleE = ang.findCos(g, e, 1);
     
@@ -132,6 +144,113 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz) {
     nh_angles.add(angleF);
     
     return nh_angles;
+  }
+  
+  
+  public static ArrayList<Float> findTriangle_HorizontalAngles(float block_x, float block_y, float block_z, String direction, String nearORfar_angle) {
+    //documentation is in findTriangle_VerticalAngles function
+    
+    float a =0;
+    float b =0;
+    float c =0;
+    float d =0;
+    float f =0;
+    float g=5000000;
+    
+    
+    //for 4, 5,
+    //vertical lines = y
+    //hori lines = z
+    
+    //for 2, 3,
+    //vertical lines = z
+    //hori lines = x
+    
+    //for 1, 6,
+    //vertical lines = y
+    //hori lines = x
+    float increment=5;
+    
+    if (nearORfar_angle.equals("Near")) {
+      increment=0;
+    }
+    else if (nearORfar_angle.equals("Far")) {
+      increment=1;
+    }
+    else {
+      System.out.print("Error in findDirection_hori");
+      //crash program
+      int crash = 3/0;
+    }
+    
+    if (direction.equals("X Axis")) {
+      
+        a = Math.abs(block_z-player.zpos) +1;
+        b = Math.abs(block_y-player.ypos) + increment;
+        
+        c = ang.findHypotenuse(a, b);
+        d = Math.abs(block_x -player.xpos) ;
+        
+        a--;
+        if (d!=0) {
+          d--;
+        }  
+        
+        f=ang.findHypotenuse(a, b);
+        g=ang.findHypotenuse(d, f);
+        println("x axis calced for hori");
+        
+    }
+    else if (direction.equals("Y Axis")) {
+        a = Math.abs(block_y-player.ypos);
+        b = Math.abs(block_z-player.zpos) + increment;
+        
+        c = ang.findHypotenuse(a, b);
+        d = (block_y -player.ypos);
+        
+        if (d<0) {
+          d++;
+        }
+        d= Math.abs(d);
+        
+        f=d+1;
+        
+         println("y axis calced for hori");
+    }
+    else if (direction.equals("Z Axis")) {
+        a = Math.abs(block_z-player.zpos);
+        b = Math.abs(block_y-player.ypos) + increment ;
+        
+        c = ang.findHypotenuse(a, b);
+        d = (block_x -player.xpos);
+        
+        if (d<0) {
+          d++;
+        }
+        d= Math.abs(d);
+        
+        f=d+1;
+         println("z axis calced for hori");
+        
+    }
+    
+    
+    
+    
+    ArrayList<Float> lines = new ArrayList<Float>();
+    lines.add(a);
+    lines.add(b);
+    lines.add(c);
+    lines.add(d);
+    lines.add(f);
+    
+    //we only need to determine g here if it is X Axis HA, or Y Axis VA
+    lines.add(g);
+    
+    
+    
+    return lines;
+    
   }
   
   

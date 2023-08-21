@@ -12,14 +12,14 @@ static ArrayList<Float> nearVerticalAngles;
   //e1 and g1 will be related to near vertical angle,
   //e2 and g2 will be related to far vertical angle
   //look at documentation in calcNearVerticalAngle to understand
+  /*
   static float e_one;
   static float e_two;
   static float g_one;
   static float g_two;
+  */
   
-  //i have saved as ints because doubles will take up more space
-  //however, this adds an extra 3 unneccessary commands 
-  public static ArrayList<Float> calcNearVerticalAngles(float block_x, float block_y, float block_z) {
+  public static ArrayList<Float> calcNearVerticalAngles(float block_x, float block_y, float block_z, String direction) {
     
     
     //println("NV called");
@@ -40,9 +40,10 @@ static ArrayList<Float> nearVerticalAngles;
     //since the numerically lowest co-ords will be (0, 0, 0)
     //there is no need to change every co-ord to its abs value
     
-    float a = Math.abs(block_z-player.zpos);
-    float b = Math.abs(block_x-player.xpos);
-    float c = (float) Math.sqrt( (a*a) + (b*b) );
+    ArrayList<Float> lines = findTriangle_VerticalAngles(block_x,  block_y,  block_z, direction, "Near");
+    float a = lines.get(0);//(float) Math.sqrt( (a*a) + (b*b) );
+    float b = lines.get(1);//Math.abs(bx - player.xpos);
+    float c = lines.get(2);//(float) Math.sqrt( (a*a) + (b*b) );
     
     
     /*
@@ -55,9 +56,9 @@ static ArrayList<Float> nearVerticalAngles;
        /  |                  (by)
       /  |                  /
     c  /  |  a                   /  |
-      /      |               /     |
-     /    |             e   /        |d
-    /_______|              /          |
+      /      |                  /     |
+     /    |             e /        |d
+    /_______|            /          |
         b                 /______________|
                       c    (player y)  
     
@@ -65,7 +66,7 @@ static ArrayList<Float> nearVerticalAngles;
      */
     
     
-    float d = Math.abs(block_y -player.ypos) -1; //we want the angle from the bottom to top of block, so -1
+    float d = lines.get(3);//Math.abs(block_y -player.ypos) -1; //we want the angle from the bottom to top of block, so -1
     float e = (float) Math.sqrt( (c*c) + (d*d) );
     
     //e, d, c == RA triangle
@@ -73,11 +74,12 @@ static ArrayList<Float> nearVerticalAngles;
     float angleD = ang.findSin(d, e, 90);
     
     
-    
-    
-    
-    float f = d+1;
-    float g = (float) Math.sqrt( (c*c) + (f*f) );
+    float f = lines.get(4);
+    float g =  lines.get(5);
+    if (g==5000000) {
+     g = ang.findHypotenuse(c, f);
+    }
+    println(a, b, c, d, e, f, g);
     
     //e_one=e;
     //g_one=g;
@@ -117,9 +119,8 @@ static ArrayList<Float> nearVerticalAngles;
     
   }
   
-  public static ArrayList<Float> calcFarVerticalAngles(float block_x, float block_y, float block_z) {
+  public static ArrayList<Float> calcFarVerticalAngles(float block_x, float block_y, float block_z, String direction) {
     
-  
     /*
      calculate the hypotenuse of the first RA triangle between player (x, z) and block (x, z)
        b
@@ -137,9 +138,10 @@ static ArrayList<Float> nearVerticalAngles;
     //since the numerically lowest co-ords will be (0, 0, 0)
     //there is no need to change every co-ord to its abs value
     
-    float a = Math.abs(block_z-player.zpos);
-    float b = Math.abs(block_x-player.xpos+1);
-    float c = (float) Math.sqrt( (a*a) + (b*b) );
+     ArrayList<Float> lines = findTriangle_VerticalAngles(block_x,  block_y,  block_z, direction, "Far");
+    //float a = Math.abs(block_z-player.zpos);
+    //float b = Math.abs(block_x-player.xpos+1);
+    float c = lines.get(2);//(float) Math.sqrt( (a*a) + (b*b) );
     
     
     /*
@@ -162,7 +164,7 @@ static ArrayList<Float> nearVerticalAngles;
      */
     
     
-    float d = Math.abs(block_y -player.ypos) -1; //we want the angle from the bottom to top of block, so -1
+    float d = lines.get(3);//Math.abs(block_y -player.ypos) -1; //we want the angle from the bottom to top of block, so -1
     float e = (float) Math.sqrt( (c*c) + (d*d) );
     
     //e, d, c == RA triangle
@@ -173,8 +175,11 @@ static ArrayList<Float> nearVerticalAngles;
     
     
     
-    float f = d+ 1;
-    float g = (float) Math.sqrt( (c*c) + (f*f) );
+    float f = lines.get(4);
+    float g =  lines.get(5);
+    if (g==5000000) {
+     g = ang.findHypotenuse(c, f);
+    }
     
     //e_one=e;
     //g_one=g;
@@ -215,7 +220,7 @@ static ArrayList<Float> nearVerticalAngles;
   
   
   
-  public ArrayList< ArrayList<Float>> calcVerticalAngles(float block_x, float block_y, float block_z, float farAngleCoord) {
+  public ArrayList< ArrayList<Float>> calcVerticalAngles(float block_x, float block_y, float block_z, String direction) {
     //angle documentation is above
     
     
@@ -225,13 +230,172 @@ static ArrayList<Float> nearVerticalAngles;
     
     
     ArrayList< ArrayList<Float>> VAs = new ArrayList<ArrayList<Float>>();
-    VAs.add(calcNearVerticalAngles(block_x, block_y, block_z));
-    VAs.add(calcFarVerticalAngles(block_x, block_y, block_z));
+    VAs.add(calcNearVerticalAngles(block_x, block_y, block_z, direction));
+    VAs.add(calcFarVerticalAngles(block_x, block_y, block_z, direction));
     
     
     
     return VAs;
   }
+  
+  //draw the first triangle needed to draw a line to a block
+  public static ArrayList<Float> findTriangle_VerticalAngles(float block_x, float block_y, float block_z, String direction, String nearORfar_angle) {
+    
+    /*    THIS IS THE NET OF A 3D CUBE
+     *            ____
+              |6   |
+              |____|
+     *      ____     ____        ____
+        |4   |    |  3 |    |5   |
+        |____|    |____|    |____|
+     *            ____
+              |   |
+              |__1_|
+     *            ____
+              |   |
+              |_2__|                            
+
+     * 
+     *  if you are directly opposite and level with the cube, facing south to north, you will see 1.
+     *  facing north to south, you will see 6
+     * 
+     * 1 faces the negative z axis, 6 faces the positive z axis
+     * 4 faces the negative x axis, 5 faces the positive x axis
+     * 2 faces the negative y axis, 3 faces the positive y axis
+
+
+
+
+     * this is the triangle drawn if you are drawing 
+     * in the z direction, ie, 1 or 6
+
+         b
+     ------ (bx, bz)
+     |    /
+    a   |   / 
+     |  / c
+     | /
+     |/
+     (player x, player z)
+     
+     a = bz - pz
+     
+     * this is the triangle drawn if you are drawing 
+     * in the x direction, ie, 4 or 5
+
+
+        bx, bz
+      c  /|  
+      /   | b
+    /_______|
+         a
+  px, pz 
+
+    a = bx - px
+
+
+     (player x, player z)
+     
+     */
+    
+    float a =0;
+    float b =0;
+    float c =0;
+    float d =0;
+    float f =0;
+    
+    float g=5000000;
+    
+    //for 4, 5,
+    //vertical lines = y
+    //hori lines = z
+    
+    //for 2, 3,
+    //vertical lines = z
+    //hori lines = x
+    
+    //for 1, 6,
+    //vertical lines = y
+    //hori lines = x
+    float increment=5;
+    
+    if (nearORfar_angle.equals("Near")) {
+      increment=0;
+    }
+    else if (nearORfar_angle.equals("Far")) {
+      increment=1;
+    }
+    else {
+      System.out.println("Error in findDirection_Vertical");
+      //crash program
+      int crash = 3/0;
+    }
+    
+    if (direction.equals("X Axis")) {
+        a = Math.abs(block_x-player.xpos);
+        b = Math.abs(block_z-player.zpos) + increment;
+        
+        c = (float) Math.sqrt( (a*a) + (b*b) );
+        d = (block_y -player.ypos);
+        
+        if (d<0) {
+          d++;
+        }
+        d= Math.abs(d);
+        
+        f=d+1;
+        
+        println("x axis calced for vertical");
+    }
+    else if (direction.equals("Y Axis")) {
+        a = Math.abs(block_z-player.zpos)+1; //the +1 is bc we are going from back to front
+        b = Math.abs(block_y-player.ypos)-1;
+        
+        c = ang.findHypotenuse(a, b);
+        d = Math.abs(block_x -player.xpos)-1; //we want the angle from the back to front of block, so DONT -1. increment for near/far condition
+        
+        a--;
+        
+        f=ang.findHypotenuse(a, b);
+        g=ang.findHypotenuse(d, f);
+        
+        
+        println("y axis calced for vertical");
+    }
+    else if (direction.equals("Z Axis")) {
+      
+        a = Math.abs(block_z-player.zpos);
+        b = Math.abs(block_x-player.xpos) + increment ;
+        c = (float) Math.sqrt( (a*a) + (b*b) );
+        
+        d = (block_y -player.ypos);
+        
+        if (d<0) {
+          d++;
+        }
+        d= Math.abs(d);
+        
+        f=d+1;
+        
+        println("z axis calced for vertical");
+    }
+    
+    
+    ArrayList<Float> lines = new ArrayList<Float>();
+    lines.add(a);
+    lines.add(b);
+    lines.add(c);
+    lines.add(d);
+    lines.add(f);
+    
+    lines.add(g);
+    
+    
+    
+    return lines;
+  }
+  
+  
   
   
   

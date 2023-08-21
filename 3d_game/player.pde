@@ -4,6 +4,10 @@ class Player {
   float ypos;
   float zpos;
   
+  float previous_x;
+  float previous_y;
+  float previous_z;
+  
   /*
   north/forward = z+
   east/right = x+
@@ -19,6 +23,10 @@ class Player {
   }
   
   public void changePosition(float x, float y, float z) {
+    this.previous_x = this.xpos;
+    this.previous_y = this.ypos;
+    this.previous_z = this.xpos;
+    
     this.xpos = x;
     this.ypos= y;
     this.zpos = z;
@@ -26,14 +34,24 @@ class Player {
   
   
   public  ArrayList<String> findQuadrantOfBlock(float bx, float by) {
-    String left_or_right;
+    String left_or_right="";
     String higher_or_lower;
     if (this.xpos <= bx) {
       left_or_right = "Right";
     }
-    else {
+    else {//if (this.xpos > bx) {
       left_or_right = "Left";
     }
+    /*
+    else {
+      if (this.previous_x < this.xpos) {
+        left_or_right = "Left";
+      }
+      else if (this.previous_x > this.xpos) {
+        left_or_right = "Right";
+      }
+    }
+    */
     
     if (this.ypos <= by) {
       higher_or_lower = "Higher";
@@ -50,9 +68,8 @@ class Player {
     
     return quadrant;
     
-    
-    
   }
+    
   
   
   

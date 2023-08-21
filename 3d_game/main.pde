@@ -1,10 +1,11 @@
 int k;
+int colour;
 
 void setup() {
   
   size(800, 800);
   //x, y, z co-ords
-  player = new Player(3, 0, 10);
+  player = new Player(0, 0, 0);
   w = new World();
   d = new Display();
   ang = new Angles();
@@ -14,19 +15,20 @@ void setup() {
   int i=9;
   
   if (i==j) {
-  w.setGrid(w.createGrid(8, 5, 20));
+  w.setGrid(w.createGrid(20, 20, 30));
+  colour=#0000FF;
   
-  
-  w.editGrid(0, 8, 0, 5, 14, 15, #0000FF);
-  w.editGrid(2 , 4, 0, 1, 13, 14, #FF0000);
-  w.editGrid(0, 1, 0, 2, 10, 12, #AAAA00);
+  w.editGrid(0, 10, 0, 10, 14, 15, #00A0FF);
+  //w.editGrid(2 , 4, 0, 1, 13, 14, #FF0000);
+  //w.editGrid(0, 1, 0, 2, 10, 12, #AAAA00);
   
   d.findDegreesToPixelsRatio();
   }
+  k=0;
    //init();
    frameRate(1); //<>//
    //p = new PApplet();
-   k=0;
+   
    //println(w.getGrid().get(0).size());
   
 }
@@ -34,56 +36,65 @@ void setup() {
 void draw() {
 
   //w.drawGrid(w.getGrid());
-  background(#888888);
+  background(#666666);
   
-  //player.changePosition(3, 3 , 3);
+  player.changePosition(5, 5 , 0);
   
 
   
   //d.drawQuad(3, 3, k);
   //d.drawQuad(3, 2, k);
   //d.drawQuad(3, 1, k);
-  //k--;
-  k++;
+   //k--;
+  //k++;
   
   d.drawQuadrants();
-  w.ThreeDimensional_Draw( w.getGrid() );
+  fill(#00A900);
+  //d.drawCube(10, 5, 14);
+  
+  //w.ThreeDimensional_Draw( w.getGrid() );
+  //w.editGrid(0, k, 0, 50, 14, 15, #0000FF);
   //calcFarHorizontalAngles(0, 1, 10);
   //System.out.println(calcNearVerticalAngles(3, 3, 4) +"\n\n");
+  //k--;
   
   /*
-  fill(#0000FF);
-  d.drawQuad(2, 5, 7);
-  d.drawQuad(3, 5, 7);
+  d.drawCube(8, 7+k, 21);
+  d.drawCube(4 ,7-k, 21);
+  d.drawCube(8 ,3+k, 21);
+  d.drawCube(4 ,3-k, 21);
+  //*/
+  
+  ///*
+   //fill(#EEA900);
+   d.drawCube(6-k, 2 , 21);
+   d.drawCube(3+k ,2, 21);
+   d.drawCube(6-k,2, 21);
+   d.drawCube(3+k,2, 21);
+  //*/
+  
+  k++;
+  
+  System.out.println(calcNearVerticalAngles(6.0, 5.0, 21.0, "Z Axis"));
+  System.out.println(calcNearVerticalAngles(6.0, 4.0, 21.0, "Z Axis"));
   
   
-  d.drawQuad(2, 1, 7);
-  d.drawQuad(3, 1, 7);
-  
-  fill(#00A900);
-  d.drawQuad(2, 2, 7);
-  d.drawQuad(3, 2, 7);
-  */
-  
-  //System.out.println(ang.calcHorizontalAngles(player.xpos-2, player.ypos, player.xpos+2));
-  //System.out.println(ang.calcHorizontalAngles(player.xpos+2, player.ypos, player.xpos+2));
-  
-  
-  
-  //noLoop();
+  //System.out.println(ang.calcHorizontalAngles(10, 15, 20, "X Axis"));
+
+  noLoop();
   //d.drawQuad(player.xpos-1, player.ypos+5, player.xpos+10);
   //d.drawQuad(player.xpos, player.ypos+5, player.xpos+10);
   
-  noLoop();
+  
   //println(w.getGrid().get(0).size());
   //w.ThreeDimensional_Draw( w.getGrid() );
   
 }
 
 void mousePressed() {
-  noLoop();
+  loop();
 }
 
 void mouseReleased() {
-  loop();
+  noLoop();
 }

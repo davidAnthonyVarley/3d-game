@@ -30,13 +30,12 @@ void setup() {
    //p = new PApplet();
    
    //println(w.getGrid().get(0).size());
-  
 }
 
 void draw() {
-
+  background(#444444);
   //w.drawGrid(w.getGrid());
-  background(#666666);
+  
   
   player.changePosition(5, 5 , 0);
   
@@ -60,23 +59,31 @@ void draw() {
   
   /*
   d.drawCube(8, 7+k, 21);
-  d.drawCube(4 ,7-k, 21);
-  d.drawCube(8 ,3+k, 21);
-  d.drawCube(4 ,3-k, 21);
+  d.drawCube(1 ,7+k, 21); 
+  d.drawCube(8 ,3-k, 21);
+  d.drawCube(1 ,3-k, 21);
   //*/
   
   ///*
    //fill(#EEA900);
-   d.drawCube(6-k, 2 , 21);
-   d.drawCube(3+k ,2, 21);
+   d.drawCube(6-k, 7 , 21);
+   d.drawCube(3+k ,7, 21);
    d.drawCube(6-k,2, 21);
    d.drawCube(3+k,2, 21);
   //*/
   
   k++;
   
-  System.out.println(calcNearVerticalAngles(6.0, 5.0, 21.0, "Z Axis"));
-  System.out.println(calcNearVerticalAngles(6.0, 4.0, 21.0, "Z Axis"));
+  //println(ang.calcAngles(7, 10, 9, "Y Axis"));
+  //println(ang.calcAngles(7, 13, 9, "Y Axis"));
+  
+  //System.out.println(calcFarHorizontalAngles(10, 7, 10, "Y Axis"));
+  //System.out.println(calcNearHorizontalAngles(10, 7, 11, "Z Axis"));
+  
+  //drawZAStack();
+  //drawYAStack();
+  //drawXAStack();
+  //nHA_YA_test();
   
   
   //System.out.println(ang.calcHorizontalAngles(10, 15, 20, "X Axis"));
@@ -90,6 +97,7 @@ void draw() {
   //w.ThreeDimensional_Draw( w.getGrid() );
   
 }
+
 
 void mousePressed() {
   loop();

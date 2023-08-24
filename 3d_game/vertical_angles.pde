@@ -79,7 +79,7 @@ static ArrayList<Float> nearVerticalAngles;
     if (g==5000000) {
      g = ang.findHypotenuse(c, f);
     }
-    println(a, b, c, d, e, f, g);
+    //println(a, b, c, d, e, f, g);
     
     //e_one=e;
     //g_one=g;
@@ -103,9 +103,24 @@ static ArrayList<Float> nearVerticalAngles;
     //h = opposite = 1, because every block is 1x1x1
     
     //cos(A) = (b^2 + c^2 - a^2) / (2 * b * c)
-    float h=1;
-    float angleE = ang.findCos(e, g, h);
-    float angleF = Math.abs(/*HALF_SCREEN_DEGREES*/45 - angleD - angleE);
+    float angleE;// = ang.findCos(e, g, 1);
+    
+    if (direction.equals("Y Axis")) {
+      //a== z distance
+      //float perim = ang.findHypotenuse(a, a);
+      //e2 = distance from player to cirference of circle
+      //float e_two = ang.findHypotenuse(perim, b);
+      //float h = Math.abs(a-d);
+      
+      
+      float D_two = ang.findSin(d, g, 90);
+      angleE= Math.abs(D_two - angleD);
+    } 
+    else {
+      angleE= ang.findCos(e, g, 1);
+    }
+    float angleF= Math.abs(HALF_SCREEN_DEGREES - angleD - angleE);
+
     angleD+= HALF_SCREEN_DEGREES;
     
     ArrayList<Float> nv_angles = new ArrayList<Float>();
@@ -203,9 +218,24 @@ static ArrayList<Float> nearVerticalAngles;
     //h = opposite = 1, because every block is 1x1x1
     
     //cos(A) = (b^2 + c^2 - a^2) / (2 * b * c)
-    float h=1;
-    float angleE = ang.findCos(e, g, h);
-    float angleF = Math.abs(/*HALF_SCREEN_DEGREES*/45 - angleD - angleE);
+    float angleE;// = ang.findCos(e, g, 1);
+    
+    if (direction.equals("Y Axis")) {
+      //a== z distance
+      //float perim = ang.findHypotenuse(a, a);
+      //e2 = distance from player to cirference of circle
+      //float e_two = ang.findHypotenuse(perim, b);
+      //float h = Math.abs(a-d);
+      
+      
+      float D_two = ang.findSin(d, g, 90);
+      angleE= Math.abs(D_two - angleD);
+    } 
+    else {
+      angleE= ang.findCos(e, g, 1);
+    }
+    float angleF= Math.abs(HALF_SCREEN_DEGREES - angleD - angleE);
+
     angleD+= HALF_SCREEN_DEGREES;
     
     ArrayList<Float> fv_angles = new ArrayList<Float>();
@@ -335,7 +365,7 @@ static ArrayList<Float> nearVerticalAngles;
         a = Math.abs(block_x-player.xpos);
         b = Math.abs(block_z-player.zpos) + increment;
         
-        c = (float) Math.sqrt( (a*a) + (b*b) );
+        c = ang.findHypotenuse(a, b);
         d = (block_y -player.ypos);
         
         if (d<0) {
@@ -348,17 +378,20 @@ static ArrayList<Float> nearVerticalAngles;
         println("x axis calced for vertical");
     }
     else if (direction.equals("Y Axis")) {
-        a = Math.abs(block_z-player.zpos)+1; //the +1 is bc we are going from back to front
-        b = Math.abs(block_y-player.ypos)-1;
+        a = Math.abs(block_z-player.zpos)+1;
+        b = Math.abs(block_x-player.xpos) + increment;
         
         c = ang.findHypotenuse(a, b);
-        d = Math.abs(block_x -player.xpos)-1; //we want the angle from the back to front of block, so DONT -1. increment for near/far condition
+        d = (block_y -player.ypos) ;
         
-        a--;
         
-        f=ang.findHypotenuse(a, b);
+        if (d<0) {
+          d++;
+        }
+        d= Math.abs(d) ;
+        
+        f=ang.findHypotenuse(a-1, b);
         g=ang.findHypotenuse(d, f);
-        
         
         println("y axis calced for vertical");
     }

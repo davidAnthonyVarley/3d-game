@@ -4,6 +4,9 @@ World w;
 Display d;
 static Angles ang;
 
+//perimeter length
+//float perim;
+
 
 int SCREEN_X = 800;
 int SCREEN_Y = 800;

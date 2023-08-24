@@ -17,18 +17,18 @@ class Display {
     //ie, if the block is in the upper-right quadrant,
     //draw sides 4, 2, 1
     
-    
+    fill(#00A900);
+    drawQuad(bx, by, bz, "X Axis");
+    println("\n");
     
     fill(#FFA900);
     drawQuad(bx, by, bz, "Z Axis");
     println("\n");
-    fill(#00A900);
-    //drawQuad(bx, by, bz, "X Axis");
-    println("\n");
-    //fill(#0000FF);
+    
+    fill(#0044FF);
     
     //println(bx, by, bz);
-    //drawQuad(bx, by, bz, "Y Axis");
+    drawQuad(bx, by, bz, "Y Axis");
     //println("\n\n");
     
     
@@ -127,6 +127,7 @@ class Display {
   float h = SCREEN_Y / DEGREES_TO_PIXELS_RATIO;
   
   if (direction.equals("Y Axis")) {
+    ///*
     ArrayList<Float> dupea = angles.get(0);
       ArrayList<Float> dupeb = angles.get(1);
       
@@ -138,7 +139,7 @@ class Display {
       
       angles.set(2, duped);
       angles.set(3, dupec);
-
+  //*/
       
   }
   
@@ -148,6 +149,8 @@ class Display {
       
       angles.set(0, dupeb);
       angles.set(1, dupea);
+      
+
   }
  
     if (  (block_quadrant.get(0).equals("Right")) && (block_quadrant.get(1).equals("Higher"))  ) {
@@ -225,14 +228,11 @@ class Display {
     
     //println(angles+"\n\n");
     if (direction.equals("X Axis")) {
-      //println(angles.get(2), angles.get(3));
+      println(angles.get(2), angles.get(3));
     }
     else if (direction.equals("Y Axis")) {
       //println(angles.get(0), angles.get(1));
     }
-    
-    //println( x_one, y_one, x_two, y_two, x_three, y_three, x_four, y_four);
-    
     
     float[] coords = { x_one, y_one, x_two, y_two, x_three, y_three, x_four, y_four };
     //println( x_one, y_one, x_two, y_two, x_three, y_three, x_four, y_four);
@@ -247,15 +247,14 @@ class Display {
       }
     }
     */
+    
     //DEGREES_TO_PIXELS_RATIO=1;
-    //makePos(coords);
     for (int i=0; i<coords.length; i++) {
       coords[i]*=DEGREES_TO_PIXELS_RATIO;
       //print(coords[i]+" ");
     }
     
     //doubleSize(coords);
-    println();
     
     return coords;
   }

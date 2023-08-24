@@ -25,8 +25,8 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     
     ArrayList<Float> lines = findTriangle_HorizontalAngles(bx,  by,  bz, direction, "Far");
     
-    //float a = Math.abs(bz - player.zpos);
-    //float b = Math.abs(by - player.ypos +1);
+    float a = lines.get(0);//(float) Math.sqrt( (a*a) + (b*b) );
+    float b = lines.get(1);//Math.abs(bx - player.xpos);
     float c = lines.get(2);//(float) Math.sqrt( (a*a) + (b*b) );
     float d = lines.get(3);//Math.abs(bx - player.xpos);
 
@@ -44,7 +44,6 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     
     //println(a, b, c, d, e, f, g);
     
-    float angleE = ang.findCos(g, e, 1);
     
     /*
     
@@ -61,8 +60,24 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     
     
     */
-    float angleF = Math.abs(/*HALF_SCREEN_DEGREES*/45 - angleD - angleE);
-    angleD+= HALF_SCREEN_DEGREES;
+    float angleE;// = ang.findCos(e, g, 1);
+    
+    if (direction.equals("X Axis")) {
+      //a== z distance
+      //float perim = ang.findHypotenuse(a, a);
+      //e2 = distance from player to cirference of circle
+      //float e_two = ang.findHypotenuse(perim, b);
+      //float h = Math.abs(a-d);
+      
+      
+      float D_two = ang.findSin(d, g, 90);
+      angleE= Math.abs(D_two - angleD);
+    } 
+    else {
+      angleE= ang.findCos(e, g, 1);
+    }
+    float angleF= Math.abs(HALF_SCREEN_DEGREES - angleD - angleE);
+    angleD+=HALF_SCREEN_DEGREES;
     
     ArrayList<Float> fh_angles = new ArrayList<Float>();
     fh_angles.add(angleD);
@@ -118,16 +133,14 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     //println("g nH:", g);
     //println(a, b, c, d, e, f, g);
     
-    float angleE = ang.findCos(g, e, 1);
-    
     /*
     
-    |  /    /        /
-    |      /        /
-    |  /  /      /
-    |    /      /
-    |D/E/ F    /
-   45deg|45deg    /
+     |  /    /        /
+     |      /        /
+     |  /  /      /
+     |    /      /
+     |D/E/ F    /
+45deg|45deg    /
     
     D will equal angleD + 45deg, because the width of the screen is 90deg
     E is the angle to the block
@@ -135,8 +148,24 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     
     
     */
-    float angleF = Math.abs(/*HALF_SCREEN_DEGREES*/45 - angleD - angleE);
-    angleD+= HALF_SCREEN_DEGREES;
+    float angleE;// = ang.findCos(e, g, 1);
+    
+    if (direction.equals("X Axis")) {
+      //a== z distance
+      //float perim = ang.findHypotenuse(a, a);
+      //e2 = distance from player to cirference of circle
+      //float e_two = ang.findHypotenuse(perim, b);
+      //float h = Math.abs(a-d);
+      
+      
+      float D_two = ang.findSin(d, g, 90);
+      angleE= Math.abs(D_two - angleD);
+    } 
+    else {
+      angleE= ang.findCos(e, g, 1);
+    }
+    float angleF= Math.abs(HALF_SCREEN_DEGREES - angleD - angleE);
+    angleD+=HALF_SCREEN_DEGREES;
     
     ArrayList<Float> nh_angles = new ArrayList<Float>();
     nh_angles.add(angleD);
@@ -185,28 +214,30 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     
     if (direction.equals("X Axis")) {
       
-        a = Math.abs(block_z-player.zpos) +1;
+        a = Math.abs(block_z-player.zpos)+1;
         b = Math.abs(block_y-player.ypos) + increment;
         
         c = ang.findHypotenuse(a, b);
-        d = Math.abs(block_x -player.xpos) ;
+        d = (block_x -player.xpos) ;
         
-        a--;
-        if (d!=0) {
-          d--;
-        }  
         
-        f=ang.findHypotenuse(a, b);
+        if (d<0) {
+          d++;
+        }
+        d= Math.abs(d) ;
+        
+        f=ang.findHypotenuse(a-1, b);
         g=ang.findHypotenuse(d, f);
         println("x axis calced for hori");
         
     }
     else if (direction.equals("Y Axis")) {
+      
         a = Math.abs(block_y-player.ypos);
         b = Math.abs(block_z-player.zpos) + increment;
         
         c = ang.findHypotenuse(a, b);
-        d = (block_y -player.ypos);
+        d = (block_x -player.xpos);
         
         if (d<0) {
           d++;

@@ -112,7 +112,7 @@ public class Angles {
       res/= (2*a*b);
       
       if (res>1) {
-        res = 1/res;
+        //res = 1/res;
         //res-=0.1;
       }
       
@@ -138,6 +138,40 @@ public class Angles {
     public float findHypotenuse( float adjacent, float opposite) {
       double res = Math.sqrt((adjacent*adjacent) + (opposite*opposite));
       return (float) res;
+    }
+    
+    public ArrayList< ArrayList<Float>> fixRebound(ArrayList<String> block_quadrant) {
+      
+      if (  (block_quadrant.get(0).equals("Right")) && (block_quadrant.get(1).equals("Higher"))  ) {
+        
+       //println(bx, by);
+       //println(angles.get(0));
+       //println(angles.get(1)+"\n");
+       
+       
+       println("B");
+    }
+    else if ( (block_quadrant.get(0).equals("Right")) && (block_quadrant.get(1).equals("Lower"))) {
+ 
+       println("D");
+    }
+    else if ( (block_quadrant.get(0).equals("Left")) && (block_quadrant.get(1).equals("Higher"))) {
+      
+      
+      
+       
+       println("A");
+       //println(x_one, y_one, x_two, y_two, x_three, y_three, x_four, y_four);
+       
+    }
+    else if ( (block_quadrant.get(0).equals("Left")) && (block_quadrant.get(1).equals("Lower"))) {
+       
+       
+       println("C");
+    }
+      
+      
+      return new ArrayList< ArrayList<Float>>();
     }
     
     

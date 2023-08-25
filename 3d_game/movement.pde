@@ -1,3 +1,4 @@
+//the file that deals with player movement across the map
 
 void keyPressed() {
   loop();
@@ -45,4 +46,5 @@ void keyPressed() {
   }
   
   println("x:"+player.xpos+" y:"+player.ypos+" z:"+player.zpos+"\n\n");
+  draw();
 }

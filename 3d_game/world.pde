@@ -77,6 +77,20 @@
      
    }
    
+   public float getBlock(float x, float y, float z) {
+     
+     //use this to see block is empty or full
+     try {
+       float block = w.getGrid().get( (int) z).get( (int) x).get( (int) y);
+       return block;
+     }
+     catch (ArrayIndexOutOfBoundsException e) {
+      return 15;
+    }
+    
+    
+   }
+   
    
    public void drawGrid(ArrayList< ArrayList< ArrayList<Float>>> threeD_grid) {
      
@@ -153,8 +167,12 @@
           colour+=10;
           noStroke();
           */
-          //rect(xpos, ypos, BLOCK_WIDTH, BLOCK_HEIGHT);
-          d.drawQuad(i, j, z_index, "Z Axis");//Cube(i, j, z_index);
+          float x = i - player.xpos;
+          float y = j - player.ypos;
+          float z = z_index - player.zpos;
+          if (x<=z && y<=z) {
+            d.drawCube(i, j, z_index);//Cube(i, j, z_index);
+          }
         }
         
         //println("x: "+i+", y: "+j+", z: "+z_index+", colour: "+grid.get(i).get(j));

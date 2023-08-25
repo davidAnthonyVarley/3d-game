@@ -69,9 +69,57 @@ class Player {
     return quadrant;
     
   }
+  
+  
+  
+  //if the side of the block isn't covered by another block,ie,
+  //dont display the top of a block in the lower-left quadrant
+  //if there's a block directly above it
+  
+  //if we want to display the quad, return false
+  public boolean isQuadCovered(float bx, float by, float bz, String direction, ArrayList<String> block_quadrant) {
     
-  
-  
-  
-  
-}
+    //------------------------------------------
+    if (direction.equals("X Axis")) {
+      if (bx!=0 && (bx!=w.getGrid().get(0).size()) ) {
+        bx = block_quadrant.get(0).equals("Right") ? bx-1 : bx+1;
+      }
+    }
+    //------------------------------------------
+    
+    
+    
+    //------------------------------------------
+    else if (direction.equals("Y Axis")) {
+      if (by!=0 && (by!=w.getGrid().get(0).get(0).size()) ) {
+        by = block_quadrant.get(1).equals("Higher") ? (by-1) : by+1;
+      }
+    }
+    //------------------------------------------
+    
+    
+    
+    //------------------------------------------
+    else if (direction.equals("Z Axis")) {
+      if (bz!=0) {
+        bz-=1;
+      }
+    }
+    //------------------------------------------
+    
+    float block = w.getBlock(bx, by, bz);
+
+    if (block==EMPTY) {
+      return false;
+    }
+    else {
+      return true;
+    }
+    
+  }
+
+
+
+ }
+ 
+ 

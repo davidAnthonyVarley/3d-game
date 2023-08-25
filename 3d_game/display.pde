@@ -16,44 +16,45 @@ class Display {
     
     //ie, if the block is in the upper-right quadrant,
     //draw sides 4, 2, 1
-    
-    fill(#00A900);
-    drawQuad(bx, by, bz, "X Axis");
-    println("\n");
-    
-    fill(#FFA900);
-    drawQuad(bx, by, bz, "Z Axis");
-    println("\n");
+    ArrayList<String> block_quadrant = player.findQuadrantOfBlock(bx, by);
     
     fill(#0044FF);
+    drawQuad(bx, by, bz, "Y Axis", block_quadrant);
+    println("\n");
     
-    //println(bx, by, bz);
-    drawQuad(bx, by, bz, "Y Axis");
-    //println("\n\n");
+    fill(#00A900);
+    drawQuad(bx, by, bz, "X Axis", block_quadrant);
+    println("\n");
+    
+    
+    fill(#FFA900);
+    drawQuad(bx, by, bz, "Z Axis", block_quadrant);
+    println("\n");
     
     
   }
   
-  public void drawQuad(float bx, float by, float bz, String direction) {
-    //fill(#00FF00);
-    //quad(152.5, 80.5, 252, 80, 200, 200, 152, 200);
-    //quad(593, 124, 649, 124, 672, 206, 624, 206);
+  public void drawQuad(float bx, float by, float bz, String direction, ArrayList<String> block_quadrant) {
 
-    //the following only works for blocks in the upper-right quadrant of the screen
-    ArrayList< ArrayList<Float>> angles = ang.calcAngles(bx, by, bz, direction);
+    //if the side of the block isn't covered by another block
+    boolean covered = player.isQuadCovered( bx, by, bz, direction, block_quadrant);
+    ArrayList< ArrayList<Float>> angles;// = new ArrayList< ArrayList<Float>>();
     
+    
+    if (!covered) {
+      angles = ang.calcAngles(bx, by, bz, direction);
+      
+      if (d.checkIfAllAnglesAreValid(angles) ) {
+        
+        float[] coords = findQuadCoords(angles, block_quadrant, direction);
+        quad(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7]);
+      
+      }
+    }
     //println(DEGREES_TO_PIXELS_RATIO);
     //println("nH: "+angles.get(2).get(2), "fH: "+angles.get(3).get(2));
     
-    //println(x_one, y_one, x_two, y_two, x_three, y_three, x_four, y_four);
     
-    if (d.checkIfAllAnglesAreValid(angles)) {
-      
-      ArrayList<String> block_quadrant = player.findQuadrantOfBlock(bx, by);
-      float[] coords = findQuadCoords(angles, block_quadrant, direction);
-      quad(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7]);
-      
-    }
   }
   
   public float[] findQuadCoords(ArrayList< ArrayList<Float>> angles, ArrayList<String> block_quadrant, String direction) {
@@ -104,23 +105,7 @@ class Display {
   
   //boolean stored as a float
   //float dontDraw=0;
-  /*
-  if ( (block_quadrant.get(0).equals("Left")) ) {
-      ArrayList<Float> dupea = angles.get(0);
-      ArrayList<Float> dupeb = angles.get(1);
-      
-      angles.set(0, dupeb);
-      angles.set(1, dupea);
-  }
   
-  if ( (block_quadrant.get(1).equals("Lower")) ) {
-      ArrayList<Float> dupea = angles.get(2);
-      ArrayList<Float> dupeb = angles.get(3);
-      
-      angles.set(2, dupeb);
-      angles.set(3, dupea);
-  }
-  */
   
   //width, height
   float w = SCREEN_X / DEGREES_TO_PIXELS_RATIO;
@@ -144,16 +129,24 @@ class Display {
   }
   
   if (direction.equals("X Axis")) {
-    ArrayList<Float> dupea = angles.get(0);
+    
+    ///*
+     ArrayList<Float> dupea = angles.get(0);
       ArrayList<Float> dupeb = angles.get(1);
       
       angles.set(0, dupeb);
       angles.set(1, dupea);
-      
+      //*/
 
   }
+  
+  //angles = ang.fixRebound(block_quadrant);
  
     if (  (block_quadrant.get(0).equals("Right")) && (block_quadrant.get(1).equals("Higher"))  ) {
+      
+      
+      
+      
       //angle D
        y_four =  h - (angles.get(0).get(0) ); //nV
       //angle F

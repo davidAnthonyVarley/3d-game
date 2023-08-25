@@ -4,8 +4,8 @@ int colour;
 void setup() {
   
   size(800, 800);
-  //x, y, z co-ords
-  player = new Player(0, 0, 0);
+  //x, y, z co-ordinates
+  player = new Player(5, 5, 0);
   w = new World();
   d = new Display();
   ang = new Angles();
@@ -15,11 +15,11 @@ void setup() {
   int i=9;
   
   if (i==j) {
-  w.setGrid(w.createGrid(20, 20, 30));
+  w.setGrid(w.createGrid(11, 11, 26));
   colour=#0000FF;
   
-  w.editGrid(0, 10, 0, 10, 14, 15, #00A0FF);
-  //w.editGrid(2 , 4, 0, 1, 13, 14, #FF0000);
+  createCorridor();
+  
   //w.editGrid(0, 1, 0, 2, 10, 12, #AAAA00);
   
   d.findDegreesToPixelsRatio();
@@ -37,7 +37,7 @@ void draw() {
   //w.drawGrid(w.getGrid());
   
   
-  player.changePosition(5, 5 , 0);
+  //player.changePosition(5, 5 , 0);
   
 
   
@@ -51,7 +51,7 @@ void draw() {
   fill(#00A900);
   //d.drawCube(10, 5, 14);
   
-  //w.ThreeDimensional_Draw( w.getGrid() );
+  w.ThreeDimensional_Draw( w.getGrid() );
   //w.editGrid(0, k, 0, 50, 14, 15, #0000FF);
   //calcFarHorizontalAngles(0, 1, 10);
   //System.out.println(calcNearVerticalAngles(3, 3, 4) +"\n\n");
@@ -64,12 +64,12 @@ void draw() {
   d.drawCube(1 ,3-k, 21);
   //*/
   
-  ///*
+  /*
    //fill(#EEA900);
-   d.drawCube(6-k, 7 , 21);
-   d.drawCube(3+k ,7, 21);
-   d.drawCube(6-k,2, 21);
-   d.drawCube(3+k,2, 21);
+   d.drawCube(7-k, 7 , 13);
+   d.drawCube(2+k ,7, 13);
+   d.drawCube(7-k,2, 13);
+   d.drawCube(2+k,2, 13);
   //*/
   
   k++;

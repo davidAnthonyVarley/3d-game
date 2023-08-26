@@ -170,7 +170,7 @@
           float x = i - player.xpos;
           float y = j - player.ypos;
           float z = z_index - player.zpos;
-          if (x<=z && y<=z) {
+          if (x<=z+1 && y<=z+1) {
             d.drawCube(i, j, z_index);//Cube(i, j, z_index);
           }
         }

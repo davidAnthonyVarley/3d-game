@@ -50,3 +50,33 @@ void createCorridor() {
   
   
 }
+
+void XA_HAs_unequal_display() {
+  float x=player.xpos;
+  float y=player.ypos;
+  
+  ArrayList<String> bq;// = player.findQuadrantOfBlock(x, y);
+  
+  bq = player.findQuadrantOfBlock(x+1, y);
+  fill(#FFA900);
+  d.drawQuad(player.xpos+1, player.ypos, player.zpos+1, "X Axis", bq);
+  
+  bq = player.findQuadrantOfBlock(x-2, y);
+  fill(#69A900);
+  d.drawQuad(player.xpos-2, player.ypos, player.zpos+1, "X Axis", bq);
+  
+  bq = player.findQuadrantOfBlock(x-2, y-1);
+  fill(#00DDEE);
+  d.drawQuad(player.xpos-2, player.ypos-1, player.zpos+1, "X Axis", bq);
+  
+  bq = player.findQuadrantOfBlock(x+1, y-1);
+  fill(#7F0000);
+  d.drawQuad(player.xpos+1, player.ypos-1, player.zpos+1, "X Axis", bq);
+  //*/
+  
+  
+  
+  
+  
+  
+}

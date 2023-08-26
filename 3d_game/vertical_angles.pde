@@ -79,7 +79,7 @@ static ArrayList<Float> nearVerticalAngles;
     if (g==5000000) {
      g = ang.findHypotenuse(c, f);
     }
-    //println(a, b, c, d, e, f, g);
+    println(a, b, c, d, e, f, g);
     
     //e_one=e;
     //g_one=g;
@@ -362,7 +362,11 @@ static ArrayList<Float> nearVerticalAngles;
     }
     
     if (direction.equals("X Axis")) {
-        a = Math.abs(block_x-player.xpos);
+        a = (block_x-player.xpos) ;
+        if (a<0) {
+          a++;
+        }
+        a = Math.abs(a) ;
         b = Math.abs(block_z-player.zpos) + increment;
         
         c = ang.findHypotenuse(a, b);
@@ -375,7 +379,7 @@ static ArrayList<Float> nearVerticalAngles;
         
         f=d+1;
         
-        println("x axis calced for vertical");
+        //println("x axis calced for vertical");
     }
     else if (direction.equals("Y Axis")) {
         a = Math.abs(block_z-player.zpos)+1;
@@ -393,12 +397,17 @@ static ArrayList<Float> nearVerticalAngles;
         f=ang.findHypotenuse(a-1, b);
         g=ang.findHypotenuse(d, f);
         
-        println("y axis calced for vertical");
+        //println("y axis calced for vertical");
     }
     else if (direction.equals("Z Axis")) {
       
         a = Math.abs(block_z-player.zpos);
-        b = Math.abs(block_x-player.xpos) + increment ;
+        b = (block_x-player.xpos) ;
+        if (b<0) {
+          b++;
+        }
+        b = Math.abs(b) +increment;
+        
         c = (float) Math.sqrt( (a*a) + (b*b) );
         
         d = (block_y -player.ypos);
@@ -410,7 +419,7 @@ static ArrayList<Float> nearVerticalAngles;
         
         f=d+1;
         
-        println("z axis calced for vertical");
+        //println("z axis calced for vertical");
     }
     
     

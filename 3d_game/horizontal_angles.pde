@@ -131,7 +131,6 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
      g = ang.findHypotenuse(e, f);
     }
     //println("g nH:", g);
-    //println(a, b, c, d, e, f, g);
     
     /*
     
@@ -215,7 +214,11 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     if (direction.equals("X Axis")) {
       
         a = Math.abs(block_z-player.zpos)+1;
-        b = Math.abs(block_y-player.ypos) + increment;
+        b = (block_y-player.ypos) ;
+        if (b<0) {
+          b++;
+        }
+        b = Math.abs(b) +increment;
         
         c = ang.findHypotenuse(a, b);
         d = (block_x -player.xpos) ;
@@ -228,7 +231,7 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
         
         f=ang.findHypotenuse(a-1, b);
         g=ang.findHypotenuse(d, f);
-        println("x axis calced for hori");
+        //println("x axis calced for hori");
         
     }
     else if (direction.equals("Y Axis")) {
@@ -246,11 +249,17 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
         
         f=d+1;
         
-         println("y axis calced for hori");
+         //println("y axis calced for hori");
     }
     else if (direction.equals("Z Axis")) {
+
         a = Math.abs(block_z-player.zpos);
-        b = Math.abs(block_y-player.ypos) + increment ;
+        b = (block_y-player.ypos) ;
+        if (b<0) {
+          b++;
+        }
+        b = Math.abs(b) +increment;
+        
         
         c = ang.findHypotenuse(a, b);
         d = (block_x -player.xpos);
@@ -258,10 +267,11 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
         if (d<0) {
           d++;
         }
+        
         d= Math.abs(d);
         
         f=d+1;
-         println("z axis calced for hori");
+         //println("z axis calced for hori");
         
     }
     

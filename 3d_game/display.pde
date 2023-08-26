@@ -18,16 +18,16 @@ class Display {
     //draw sides 4, 2, 1
     ArrayList<String> block_quadrant = player.findQuadrantOfBlock(bx, by);
     
-    fill(#0044FF);
+    //fill(#0044FF);
     drawQuad(bx, by, bz, "Y Axis", block_quadrant);
     println("\n");
     
-    fill(#00A900);
+    //fill(#00A900);
     drawQuad(bx, by, bz, "X Axis", block_quadrant);
     println("\n");
     
     
-    fill(#FFA900);
+    //fill(#FFA900);
     drawQuad(bx, by, bz, "Z Axis", block_quadrant);
     println("\n");
     
@@ -219,9 +219,10 @@ class Display {
     
   //}
     
-    //println(angles+"\n\n");
+    println(angles.get(0), angles.get(1)+"\n");
+    
     if (direction.equals("X Axis")) {
-      println(angles.get(2), angles.get(3));
+      //println(angles.get(2), angles.get(3));
     }
     else if (direction.equals("Y Axis")) {
       //println(angles.get(0), angles.get(1));

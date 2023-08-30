@@ -143,14 +143,8 @@
    
    public void TwoDimensional_Draw(ArrayList< ArrayList<Float>> grid, int z_index) {
      
-    int BLOCK_WIDTH = SCREEN_X / grid.size();
-    int BLOCK_HEIGHT = SCREEN_Y / grid.get(0).size();
-     
-     //println("column length: "+grid.get(0).size());
-     //println(
-     
-     
      stroke(0);
+     //noStroke();
      
      for (int i = 0; i<grid.size(); i++) {
        
@@ -167,10 +161,10 @@
           colour+=10;
           noStroke();
           */
-          float x = i - player.xpos;
+          float x = i - player.xpos;//-------------------------------------------------------------------------------------------------------------
           float y = j - player.ypos;
           float z = z_index - player.zpos;
-          if (x<=z+1 && y<=z+1) {
+          if (blockIsVisible(x, y, z)) {
             d.drawCube(i, j, z_index);//Cube(i, j, z_index);
           }
         }
@@ -181,6 +175,18 @@
        
        
      }
+   }
+   
+   boolean blockIsVisible(float x, float y, float z){
+     //x<=z && y<=z
+     
+     /*
+     if (x<=z && y<=z)
+       return true;
+     else
+       return false;
+       */
+       return true;
    }
    
    //ie, draw the entire world

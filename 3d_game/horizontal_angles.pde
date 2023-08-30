@@ -6,23 +6,8 @@
 
 
 public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, String direction) {
-    //remember to change e2 and g2 to e1 and g1 after angles calculated
-    //Angles ang = new Angles();
-    
-    
-    /*
-    double cosE = ( (e_one*e_one)+(e_two*e_two) - 1  ) / (2*e_one*e_two);
-    double resultRadians = Math.acos(cosE);
-    float nearHorizontalAngles= (float) Math.toDegrees(resultRadians);
-    
-    double cosG = ( (g_one*g_one)+(g_two*g_two) - 1  ) / (2*g_one*g_two);
-    resultRadians = Math.acos(cosG);
-    float farHorizontalAngle= (float) Math.toDegrees(resultRadians);
-    
-    e_one = e_two;
-    g_one = g_two;
-    */
-    
+
+
     ArrayList<Float> lines = findTriangle_HorizontalAngles(bx,  by,  bz, direction, "Far");
     
     float a = lines.get(0);//(float) Math.sqrt( (a*a) + (b*b) );
@@ -33,16 +18,16 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     
     float e = ang.findHypotenuse(c, d);
     //println("E fH:", e);
-    float angleD = ang.findCos(c, e, d);
     
     float f = lines.get(4);
     float g = lines.get(5);
     
-    if (g==5000000) {
-     g = ang.findHypotenuse(e, f);
+    if (g==5000000) {/////////////////////////////////////
+     g = ang.findHypotenuse(c, f);
     }
-    
-    //println(a, b, c, d, e, f, g);
+     
+   // println("fH: ", a, b, c, d, e, f, g);
+    float angleD = ang.findSin(d, e, 90);
     
     
     /*
@@ -76,7 +61,7 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     else {
       angleE= ang.findCos(e, g, 1);
     }
-    float angleF= Math.abs(HALF_SCREEN_DEGREES - angleD - angleE);
+    float angleF= /*Math.abs*/(HALF_SCREEN_DEGREES - angleD - angleE);
     angleD+=HALF_SCREEN_DEGREES;
     
     ArrayList<Float> fh_angles = new ArrayList<Float>();
@@ -91,22 +76,7 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
   
   
   public static ArrayList<Float> calcNearHorizontalAngles(float bx, float by, float bz, String direction) {
-    //remember to change e2 and g2 to e1 and g1 after angles calculated
-    
-   
-    
-    /*
-    double cosE = ( (e_one*e_one)+(e_two*e_two) - 1  ) / (2*e_one*e_two);
-    double resultRadians = Math.acos(cosE);
-    float nearHorizontalAngles= (float) Math.toDegrees(resultRadians);
-    
-    double cosG = ( (g_one*g_one)+(g_two*g_two) - 1  ) / (2*g_one*g_two);
-    resultRadians = Math.acos(cosG);
-    float farHorizontalAngle= (float) Math.toDegrees(resultRadians);
-    
-    e_one = e_two;
-    g_one = g_two;
-    */
+ 
     
     ArrayList<Float> lines = findTriangle_HorizontalAngles(bx,  by,  bz, direction, "Near");
  
@@ -122,15 +92,15 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     
     float e = ang.findHypotenuse(c, d);
     //println("E nH:", e);
-    float angleD = ang.findSin(d, e, 90);
     
     float f = lines.get(4);
     float g = lines.get(5);
     
-    if (g==5000000) {
-     g = ang.findHypotenuse(e, f);
+    if (g==5000000) {//////////////////////////////////////////////
+     g = ang.findHypotenuse(c, f);
     }
-    //println("g nH:", g);
+    //println("nH: ", a, b, c, d, e, f, g);
+    float angleD = ang.findSin(d, e, 90);
     
     /*
     
@@ -149,6 +119,9 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     */
     float angleE;// = ang.findCos(e, g, 1);
     
+    
+    
+    
     if (direction.equals("X Axis")) {
       //a== z distance
       //float perim = ang.findHypotenuse(a, a);
@@ -163,7 +136,10 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     else {
       angleE= ang.findCos(e, g, 1);
     }
-    float angleF= Math.abs(HALF_SCREEN_DEGREES - angleD - angleE);
+    
+    
+    
+    float angleF= /*Math.abs*/(HALF_SCREEN_DEGREES - angleD - angleE);
     angleD+=HALF_SCREEN_DEGREES;
     
     ArrayList<Float> nh_angles = new ArrayList<Float>();
@@ -184,7 +160,6 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     float d =0;
     float f =0;
     float g=5000000;
-    
     
     //for 4, 5,
     //vertical lines = y
@@ -236,7 +211,13 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
     }
     else if (direction.equals("Y Axis")) {
       
-        a = Math.abs(block_y-player.ypos);
+        a =(block_y-player.ypos);
+        if (a<0) {
+          a++;
+        }
+        a = Math.abs(a);
+        
+        
         b = Math.abs(block_z-player.zpos) + increment;
         
         c = ang.findHypotenuse(a, b);

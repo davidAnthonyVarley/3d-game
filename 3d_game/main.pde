@@ -5,7 +5,7 @@ void setup() {
   
   size(800, 800);
   //x, y, z co-ordinates
-  player = new Player(5, 5, 0);
+  player = new Player(5, 5, 14);
   w = new World();
   d = new Display();
   ang = new Angles();
@@ -51,12 +51,14 @@ void draw() {
   fill(#00A900);
   //d.drawCube(10, 5, 14);
   
-  //w.ThreeDimensional_Draw( w.getGrid() );
+  w.ThreeDimensional_Draw( w.getGrid() );
   
   //w.editGrid(0, k, 0, 50, 14, 15, #0000FF);
   //calcFarHorizontalAngles(0, 1, 10);
   //System.out.println(calcNearVerticalAngles(3, 3, 4) +"\n\n");
   //k--;
+  
+  //HAs_of_cube_line_test();
   
   /*
   d.drawCube(8, 7+k, 21);
@@ -78,7 +80,8 @@ void draw() {
   d.drawCube(player.xpos+1, player.ypos-1, player.zpos+1);
   //*/
   
-  XA_HAs_unequal_display();
+  //XA_HAs_unequal_display();
+  //YA_HAs_test();
   
   //d.drawCube(player.xpos, player.ypos, player.zpos+5);
   /*
@@ -94,8 +97,8 @@ void draw() {
   //println(ang.calcAngles(7, 10, 9, "Y Axis"));
   //println(ang.calcAngles(7, 13, 9, "Y Axis"));
   
-  //System.out.println(ang.calcHorizontalAngles(player.xpos, player.ypos, player.zpos+1, "Z Axis"));
-  //System.out.println(ang.calcHorizontalAngles(player.xpos, player.ypos-1, player.zpos+1, "Z Axis"));
+  //System.out.println(calcFarVerticalAngles(player.xpos, player.ypos+1, player.zpos+4, "Y Axis"));
+  //System.out.println(calcNearHorizontalAngles(player.xpos+1, player.ypos+1, player.zpos+4, "Y Axis"));
   
   //drawZAStack();
   //drawYAStack();

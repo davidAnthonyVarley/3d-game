@@ -18,16 +18,16 @@ class Display {
     //draw sides 4, 2, 1
     ArrayList<String> block_quadrant = player.findQuadrantOfBlock(bx, by);
     
-    //fill(#0044FF);
+    fill(#0044FF);
     drawQuad(bx, by, bz, "Y Axis", block_quadrant);
-    println("\n");
+    //println("\n");
     
-    //fill(#00A900);
+    fill(#00A900);
     drawQuad(bx, by, bz, "X Axis", block_quadrant);
-    println("\n");
+    //println("\n");
     
     
-    //fill(#FFA900);
+    fill(#FFA900);
     drawQuad(bx, by, bz, "Z Axis", block_quadrant);
     println("\n");
     
@@ -44,16 +44,14 @@ class Display {
     if (!covered) {
       angles = ang.calcAngles(bx, by, bz, direction);
       
-      if (d.checkIfAllAnglesAreValid(angles) ) {
+      //if (d.blockIsOnScreen(angles, block_quadrant) ) {
         
         float[] coords = findQuadCoords(angles, block_quadrant, direction);
         quad(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7]);
       
-      }
+      //}
     }
     //println(DEGREES_TO_PIXELS_RATIO);
-    //println("nH: "+angles.get(2).get(2), "fH: "+angles.get(3).get(2));
-    
     
   }
   
@@ -116,8 +114,8 @@ class Display {
     ArrayList<Float> dupea = angles.get(0);
       ArrayList<Float> dupeb = angles.get(1);
       
-      angles.set(0, dupeb);
-      angles.set(1, dupea);
+      //angles.set(0, dupeb);
+      //angles.set(1, dupea);
       
       ArrayList<Float> dupec = angles.get(2);
       ArrayList<Float> duped = angles.get(3);
@@ -165,12 +163,9 @@ class Display {
        //angle F
        x_two =   w - (angles.get(3).get(2) ); //fH
        
-       //println(bx, by);
-       //println(angles.get(0));
-       //println(angles.get(1)+"\n");
        
        
-       println("B");
+       print("B");
     }
     else if ( (block_quadrant.get(0).equals("Right")) && (block_quadrant.get(1).equals("Lower"))) {
        y_one =   (angles.get(0).get(0) );             //nV
@@ -183,7 +178,7 @@ class Display {
        x_four =  (angles.get(3).get(0) );            //nH
        x_three = w - (angles.get(3).get(2) ); //nH
        
-       println("D");
+       print("D");
     }
     else if ( (block_quadrant.get(0).equals("Left")) && (block_quadrant.get(1).equals("Higher"))) {
       
@@ -199,8 +194,7 @@ class Display {
        x_two =   w - (angles.get(3).get(0) ); //angle D
        x_one =   (angles.get(3).get(2) );            //angle F
        
-       println("A");
-       //println(x_one, y_one, x_two, y_two, x_three, y_three, x_four, y_four);
+       print("A");
        
     }
     else if ( (block_quadrant.get(0).equals("Left")) && (block_quadrant.get(1).equals("Lower"))) {
@@ -214,19 +208,23 @@ class Display {
        x_three = w - (angles.get(3).get(0) ); //nH
        x_four =  (angles.get(3).get(2) );            //nH
        
-       println("C");
+       print("C");
     }
-    
+    print(": "+direction+"\n");
   //}
     
-    println(angles.get(0), angles.get(1)+"\n");
+    println("Near Vertical: "+angles.get(0), "Far Vertical: "+ angles.get(1));
+    println("Near Horizontal: "+angles.get(2), "Far Horizontal: "+ angles.get(3)+"\n");
     
+    /*
     if (direction.equals("X Axis")) {
       //println(angles.get(2), angles.get(3));
     }
     else if (direction.equals("Y Axis")) {
       //println(angles.get(0), angles.get(1));
     }
+    //*/
+    
     
     float[] coords = { x_one, y_one, x_two, y_two, x_three, y_three, x_four, y_four };
     //println( x_one, y_one, x_two, y_two, x_three, y_three, x_four, y_four);
@@ -253,18 +251,34 @@ class Display {
     return coords;
   }
   
-  public void makePos(float[] c) {
-    for (int i=0; i<c.length; i++) {
-      c[i]=Math.abs(c[i]);
+  
+  
+  
+  
+  //if angle D ==90 deg, the width of the screen, don't bother drawing
+  boolean blockIsOnScreen(ArrayList< ArrayList<Float>> angles, ArrayList<String> block_quadrant) {
+    for (int i=0; i<angles.size(); i++) {
+      if (angles.get(i).get(0)>=90) {
+        angles.get(i).set(2, angles.get(i).get(2)*-1);
+        //return false;
+      }
     }
+    return true;
+    
     
   }
+  
+  
   
   public boolean checkIfAllAnglesAreValid(ArrayList< ArrayList<Float>> angles) {
     
     for (int i=0; i<angles.size(); i++) {
       for (int j=0; j<angles.get(i).size(); j++) {
         if (Float.isNaN(angles.get(i).get(j))) {
+          
+          //if angle E==NaN, angF=0;
+          //angles.get(i).set(2, (float)0);
+          
           return false;
         }
       }
@@ -272,6 +286,15 @@ class Display {
     
     return true;
   }
+  
+  //no need to return float[] as passing in reference
+  public void roundCoords(float[] coords) {
+    for (int i=0; i<coords.length; i++) {
+      coords[i] = Math.round(coords[i]);
+    }
+  }
+  
+  
   
   public void doubleSize(float[] coords) { //ArrayList<String> block_quadrant
     

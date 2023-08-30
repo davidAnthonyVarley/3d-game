@@ -111,8 +111,13 @@ public class Angles {
       double res = (a*a) + (b*b) - (c*c);
       res/= (2*a*b);
       
+      //println(" COS: (" +(a*a)+ " + " +(b*b)+ " - "+ (c*c) +") / ( 2 * " +a+ " * " +b+") == " +res);
+      
+      
+      
       if (res>1) {
         //res = 1/res;
+        //res=1;
         //res-=0.1;
       }
       
@@ -136,9 +141,12 @@ public class Angles {
     }
     
     public float findHypotenuse( float adjacent, float opposite) {
-      double res = Math.sqrt((adjacent*adjacent) + (opposite*opposite));
-      return (float) res;
+      double hypo = Math.sqrt(  (adjacent*adjacent) + (opposite*opposite)  );
+      return (float) hypo;
     }
+    
+    
+    
     
     public ArrayList< ArrayList<Float>> fixRebound(ArrayList<String> block_quadrant) {
       

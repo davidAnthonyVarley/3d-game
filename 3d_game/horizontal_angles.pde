@@ -276,3 +276,4 @@ public ArrayList<Float> calcFarHorizontalAngles(float bx, float by, float bz, St
   }
   
   
+  

@@ -84,7 +84,7 @@
        float block = w.getGrid().get( (int) z).get( (int) x).get( (int) y);
        return block;
      }
-     catch (ArrayIndexOutOfBoundsException e) {
+     catch (IndexOutOfBoundsException e) {
       return 15;
     }
     
@@ -146,47 +146,62 @@
      stroke(0);
      //noStroke();
      
-     for (int i = 0; i<grid.size(); i++) {
-       
-      for (int j=0; j<grid.get(0).size(); j++) {
-
-        float block_colour = grid.get(i).get(j);
-        
+     //for quadrant A, draw left>right, top>bottom
+     for (int i = 0; i<player.xpos; i++) {     
+      for (int j=0; j<=player.ypos; j++) {
+        //float block_colour = grid.get(i).get(j);
+        check_space(grid.get(i).get(j), i, j, z_index); 
+      }
+     }
+     
+     //for quadrant B, draw right>left, top>bottom
+     for (int i = grid.size()-1; i>=player.xpos; i--) {     
+      for (int j=0; j<=player.ypos; j++) {
+        //float block_colour = grid.get(i).get(j);
+        check_space(grid.get(i).get(j), i, j, z_index); 
+      }
+     }
+     
+     //for quadrant C, draw left>right, bottom>top
+     for (int i = 0; i<player.xpos; i++) {     
+      for (int j=grid.get(0).size()-1; j>player.ypos; j--) {
+        //float block_colour = grid.get(i).get(j);
+        check_space(grid.get(i).get(j), i, j, z_index); 
+      }
+     }
+     
+     //for quadrant D, draw right>left, bottom>top
+     for (int i = grid.size()-1; i>=player.xpos; i--) {     
+      for (int j=grid.get(0).size()-1; j>player.ypos; j--) {
+        //float block_colour = grid.get(i).get(j);
+        check_space(grid.get(i).get(j), i, j, z_index); 
+      }
+     }
+     
+     
+     
+   }
+   
+   void check_space(float block_colour, float x, float y, float z) {
         //if the current block isn't empty, then draw it
         if (  block_colour!=EMPTY ) {
           
           fill( (int) block_colour);
-          /*
-          fill(colour);
-          colour+=10;
-          noStroke();
-          */
-          float x = i - player.xpos;//-------------------------------------------------------------------------------------------------------------
-          float y = j - player.ypos;
-          float z = z_index - player.zpos;
-          if (blockIsVisible(x, y, z)) {
-            d.drawCube(i, j, z_index);//Cube(i, j, z_index);
-          }
-        }
-        
-        //println("x: "+i+", y: "+j+", z: "+z_index+", colour: "+grid.get(i).get(j));
-        
-      }
-       
-       
-     }
+          d.drawCube(x, y, z);
+        }  
+     
    }
    
    boolean blockIsVisible(float x, float y, float z){
      //x<=z && y<=z
      
-     /*
+     ///*
      if (x<=z && y<=z)
        return true;
      else
        return false;
-       */
-       return true;
+       //*/
+       //return true;
    }
    
    //ie, draw the entire world

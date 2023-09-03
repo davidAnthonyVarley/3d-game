@@ -143,8 +143,8 @@ void HAs_of_cube_line_test() {
      println("H BLOCK "+t+": ", twoD, 5, 15);
      d.drawCube(twoD, 5, 15);
      
-     println("V BLOCK "+t+": ", 5, twoD, 15);
-     d.drawCube(5, twoD, 15);
+     //println("V BLOCK "+t+": ", 5, twoD, 15);
+     //d.drawCube(5, twoD, 15);
    }
    
    /*

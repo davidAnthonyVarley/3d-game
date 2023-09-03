@@ -21,5 +21,8 @@ final float EMPTY = #FFFFFF;
 final float SCREEN_DEGREES=90;
 static float HALF_SCREEN_DEGREES;
 
+float PREVIOUS_MOUSE_X;
+float PREVIOUS_MOUSE_Y;
+
 
 float DEGREES_TO_PIXELS_RATIO;

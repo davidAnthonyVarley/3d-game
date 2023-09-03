@@ -8,6 +8,15 @@ class Player {
   float previous_y;
   float previous_z;
   
+  //how far the player is rotated in their horizontal view, ie, 0deg= east, 90 deg = north, 
+   //180deg = west, 270deg = south, 360deg = east
+  float horizontal_vision_degrees;
+  float change_in_horizontal_vision_degrees;
+  
+  //0 deg == down, 90 deg = directly in front of player, 180 deg = up
+  float vertical_vision_degrees;
+  float change_in_vertical_vision_degrees;
+  
   /*
   north/forward = z+
   east/right = x+
@@ -20,6 +29,11 @@ class Player {
     this.xpos = x;
     this.ypos= y;
     this.zpos = z;
+    
+    //0deg == east
+    this.horizontal_vision_degrees=90;
+    //0 deg == down
+    this.vertical_vision_degrees=90;
   }
   
   public void changePosition(float x, float y, float z) {
@@ -39,19 +53,10 @@ class Player {
     if (this.xpos <= bx) {
       left_or_right = "Right";
     }
-    else {//if (this.xpos > bx) {
+    else {
       left_or_right = "Left";
     }
-    /*
-    else {
-      if (this.previous_x < this.xpos) {
-        left_or_right = "Left";
-      }
-      else if (this.previous_x > this.xpos) {
-        left_or_right = "Right";
-      }
-    }
-    */
+  
     
     if (this.ypos <= by) {
       higher_or_lower = "Higher";
@@ -70,7 +75,31 @@ class Player {
     
   }
   
+  void adjustVisionDegrees() {
+    int x = mouseX;
+    int y = mouseY;
   
+    //if mouse is on screen
+    if (0<x && x<SCREEN_X) {
+      if (0<y && y<SCREEN_Y) {
+        float hori_difference = x - PREVIOUS_MOUSE_X;
+        float verti_difference = y - PREVIOUS_MOUSE_Y;
+        
+        PREVIOUS_MOUSE_X = x;
+        PREVIOUS_MOUSE_Y = y;
+      
+        hori_difference/=DEGREES_TO_PIXELS_RATIO;
+        verti_difference/=DEGREES_TO_PIXELS_RATIO;
+        
+        this.horizontal_vision_degrees = Math.abs(this.horizontal_vision_degrees-hori_difference);
+        this.vertical_vision_degrees = Math.abs(this.vertical_vision_degrees-verti_difference);
+        
+        //println("H deg: "+horizontal_vision_degrees);
+        //println("V deg: "+vertical_vision_degrees);
+      }
+    }
+  
+  }
   
   //if the side of the block isn't covered by another block,ie,
   //dont display the top of a block in the lower-left quadrant
@@ -121,5 +150,15 @@ class Player {
 
 
  }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  

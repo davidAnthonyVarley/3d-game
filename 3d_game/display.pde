@@ -42,8 +42,8 @@ class Display {
     
     
     if (!covered) {
-      angles = ang.calcAngles(bx, by, bz, direction);
-      
+      angles = ang.calcAngles(bx, by, bz, direction, block_quadrant);
+      //ang.adjustAngles(angles, block_quadrant);
       //if (d.blockIsOnScreen(angles, block_quadrant) ) {
         
         float[] coords = findQuadCoords(angles, block_quadrant, direction);

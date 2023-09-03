@@ -43,7 +43,7 @@ public class Angles {
   
   
   
-  public ArrayList< ArrayList<Float>> calcAngles(float x, float y, float z, String direction) {
+  public ArrayList< ArrayList<Float>> calcAngles(float x, float y, float z, String direction, ArrayList<String> block_quadrant) {
     
     //this will return the angles from a player to a block
     //going from near vertical angle, far vertical angle, near horizontal angle, far horizontal angle, ie,
@@ -93,6 +93,14 @@ public class Angles {
     angles.add(verticalAngles.get(1));
     angles.add(horizontalAngles.get(0));
     angles.add(horizontalAngles.get(1));
+    
+    char[] arr = {'V', 'V', 'H', 'H'};
+    for (int i=0; i<angles.size(); i++) {
+      
+        adjustAngles( angles.get(i), block_quadrant, arr[i], direction );
+      
+    }
+    
     
     //println(angles);
     
@@ -148,38 +156,143 @@ public class Angles {
     
     
     
-    public ArrayList< ArrayList<Float>> fixRebound(ArrayList<String> block_quadrant) {
+    public void adjustAngles(ArrayList<Float> angs, ArrayList<String> block_quadrant, char angleType, String dir) {
+      //v = vertical, h = horizontal
       
-      if (  (block_quadrant.get(0).equals("Right")) && (block_quadrant.get(1).equals("Higher"))  ) {
+      float deviance = 90 - ((angleType=='H') ? player.horizontal_vision_degrees : player.vertical_vision_degrees);
+      int direction = (deviance<0) ? -1 : 1;
+      //-1 means moving left, 1 means moving right
+      deviance=Math.abs(deviance);
+      
+      float D = angs.get(0);
+      //float E = angs.get(1);
+      float F = angs.get(2);
+      
+      if (angleType=='H') { //horizontal angles
+      
+      
+      //NOT FINISHED, NEED TO ADJUST FOR ALL QUADRANTS
+      //ALSO NEED TO FACTOR IN HOW BLOCKS CHANGE QUADRANTS NOW -- pass in nh and fh?
+      //if (dir.equals("X Axis")) { 
+        /*
+        float hvd = player.horizontal_vision_degrees;
+        float new_width;// = player.horizontal_vision_degrees / 90;
         
-       //println(bx, by);
-       //println(angles.get(0));
-       //println(angles.get(1)+"\n");
-       
-       
-       println("B");
-    }
-    else if ( (block_quadrant.get(0).equals("Right")) && (block_quadrant.get(1).equals("Lower"))) {
- 
-       println("D");
-    }
-    else if ( (block_quadrant.get(0).equals("Left")) && (block_quadrant.get(1).equals("Higher"))) {
+        if (hvd>90) {
+          float temp_hvd = 90 - deviance;
+          new_width = temp_hvd / 90;
+        }
+        else {
+          new_width = hvd / 90;
+        }
       
       
       
-       
-       println("A");
-       //println(x_one, y_one, x_two, y_two, x_three, y_three, x_four, y_four);
-       
-    }
-    else if ( (block_quadrant.get(0).equals("Left")) && (block_quadrant.get(1).equals("Lower"))) {
-       
-       
-       println("C");
-    }
+        // println("player.horizontal_vision_degrees: ", hvd);
+        new_width*= E;
+        float difference_of_width = E - new_width;
+        
+        D+= difference_of_width/2;
+        E = new_width;
+        F+= difference_of_width/2;
+      
+        println("D, E, F ", D, E, F);
+        
+         println( ((D+E+F)!=90 ? "HAs not adding up" : "HAs are adding up")) ;
+         
+      //}
+      
+      //*/
       
       
-      return new ArrayList< ArrayList<Float>>();
+      if ( block_quadrant.get(0).equals("Right") ) {
+        //moving in a positive direction
+        if (direction==1) {
+          D-=deviance;
+          F+=deviance;
+        }
+        else { //moving in a negative direction
+          D+=deviance;
+          F-=deviance;          
+        }
+      }
+      else { //if block_quadrant.get(0).equals("Left")
+        //else, block is on the left side
+        if (direction==1) { //neg->pos
+          D+=deviance;
+          F-=deviance; 
+        }
+        else {//neg<-pos
+          D-=deviance;
+          F+=deviance;
+        }
+        
+      }
+      
+      }//vertical angles
+      else if (angleType=='V') {
+        
+        /*
+        float vvd = player.vertical_vision_degrees;
+        float new_height;// = player.horizontal_vision_degrees / 90;
+        if (vvd>90) {
+          float temp_vvd = 90 - deviance;
+          new_height = temp_vvd / 90;
+        }
+        else {
+          new_height = vvd / 90;
+        }
+      
+      
+      
+        // println("player.horizontal_vision_degrees: ", hvd);
+        new_height*= E;
+        float difference_of_height = E - new_height;
+        
+        //D+= difference_of_height/2;
+        //E = new_height;
+        F+= difference_of_height;
+      
+      //*/
+        //println("difference of height: ", difference_of_height);
+        //println( ((D+E+F)!=90 ? "VAs not adding up" : "VAs are adding up")) ;
+        
+        
+        
+        
+        if ( block_quadrant.get(1).equals("Higher") ) {
+        //moving in a positive direction
+        if (direction==1) {
+          D+=deviance;
+          F-=deviance;
+        }
+        else { //moving in a negative direction
+          D-=deviance;
+          F+=deviance;          
+        }
+      }
+      else { //if block_quadrant.get(1).equals("Lower")
+        //else, block is on the bottom side
+        if (direction==1) { //neg->pos
+          D-=deviance;
+          F+=deviance; 
+        }
+        else {//neg<-pos
+          D+=deviance;
+          F-=deviance;
+        }
+        
+      }
+      }
+
+      angs.set(0, D);
+      //angs.set(1, E);
+      angs.set(2, F);
+      
+      
+      
+      
+      //return new ArrayList< ArrayList<Float>>();
     }
     
     

@@ -5,7 +5,7 @@ void setup() {
   
   size(800, 800);
   //x, y, z co-ordinates
-  player = new Player(5, 5, 2);
+  player = new Player(7, 5, 6);
   w = new World();
   d = new Display();
   ang = new Angles();
@@ -23,7 +23,7 @@ void setup() {
   w.setGrid(w.createGrid(11, 11, 26));
   colour=#0000FF;
   
-  //createCorridor();
+  createCorridor();
   
   //w.editGrid(0, 1, 0, 2, 10, 12, #AAAA00);
   
@@ -41,7 +41,7 @@ void draw() {
   fill(#00A900);
 
   
-  //w.ThreeDimensional_Draw( w.getGrid() );
+  w.ThreeDimensional_Draw( w.getGrid() );
   //w.editGrid(0, k, 0, 50, 14, 15, #0000FF);
   //HAs_of_cube_line_test();
   //ArrayList<String> block_quadrant = player.findQuadrantOfBlock(bx, by);
@@ -77,9 +77,9 @@ void draw() {
   //println(ang.calcAngles(7, 10, 9, "Y Axis"));
   //println(ang.calcAngles(7, 13, 9, "Y Axis"));
   
-  System.out.println(calcNearHorizontalAngles(player.xpos, player.ypos+1, player.zpos+8, "Z Axis"));
-  System.out.println(calcNearHorizontalAngles(player.xpos+5, player.ypos+1, player.zpos+8, "Z Axis"));
+  //System.out.println(calcNearHorizontalAngles(player.xpos, player.ypos+1, player.zpos+8, "Z Axis"));
+  //System.out.println(calcNearHorizontalAngles(player.xpos+5, player.ypos+1, player.zpos+8, "Z Axis"));
 
 
-  noLoop();
+  //noLoop();
 }

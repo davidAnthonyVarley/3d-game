@@ -38,7 +38,7 @@ void nHA_YA_test() {
 void createCorridor() {
   
   //left-right sides
-  w.editGrid(9, 10, 0, 10, 14, 24, #00A7FF);
+  w.editGrid(10, 11, 0, 10, 14, 24, #00A7FF);
   w.editGrid(3, 4, 0, 10, 14, 24, #00A7FF);
   
   //top-bottom
@@ -134,6 +134,37 @@ void YA_HAs_test() {
   
   
 }
+
+void testwrite() throws IOException {
+  //BufferedWriter bw;
+  //try {
+     //bw = //new BufferedWriter( new FileWriter("wwworld.txt")); //saved_worlds\\basic_world
+  //}
+  //catch (FileNotFoundException e) {
+    
+ // }
+    //bw.write("1hey");
+    //bw.write(" 2there");
+    String data="";
+    
+    for (int i=0; i<10; i++) {
+      //bw.write("1-2-3--2-1-2--3-2-1");
+      data+="1-2-3--2-1-2--3-2-1";
+      if (i!=9) {
+        //bw.write("---");
+        data+="---";
+      }
+    }
+    String d[] = {data};
+    
+    saveStrings("wwworld.txt", d);
+    
+    System.out.println("writen");
+    
+    //bw.close();
+  }
+
+
 
 void HAs_of_cube_line_test() {
   int t=0;

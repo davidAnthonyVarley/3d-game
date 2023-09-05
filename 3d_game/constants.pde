@@ -1,3 +1,18 @@
+
+import java.lang.Math;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import java.io.FileNotFoundException;
+
+
+
 //the human player, on your local computer
 static Player player;
 World w;
@@ -24,5 +39,6 @@ static float HALF_SCREEN_DEGREES;
 float PREVIOUS_MOUSE_X;
 float PREVIOUS_MOUSE_Y;
 
-
 float DEGREES_TO_PIXELS_RATIO;
+
+HashMap<String, Float> dict;

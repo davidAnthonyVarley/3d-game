@@ -3,11 +3,6 @@
 class Display {
   //will be used to draw quads, rects etc with results from angles classes
   
-  public void findDegreesToPixelsRatio() {
-    //this will find out how much of the screen an angle should take up
-    //if ==5, 2 deg angle will take up 10 pixels
-    DEGREES_TO_PIXELS_RATIO = SCREEN_X / SCREEN_DEGREES;
-  }
   
   public void drawCube(float bx, float by, float bz) {
     
@@ -18,16 +13,16 @@ class Display {
     //draw sides 4, 2, 1
     ArrayList<String> block_quadrant = player.findQuadrantOfBlock(bx, by);
     
-    fill(#0044FF);
+    //fill(#0044FF);
     drawQuad(bx, by, bz, "Y Axis", block_quadrant);
     //println("\n");
     
-    fill(#00A900);
+    //fill(#00A900);
     drawQuad(bx, by, bz, "X Axis", block_quadrant);
     //println("\n");
     
     
-    fill(#FFA900);
+    //fill(#FFA900);
     drawQuad(bx, by, bz, "Z Axis", block_quadrant);
     println("\n");
     

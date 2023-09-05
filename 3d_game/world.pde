@@ -46,10 +46,71 @@
      return world;
    }
    
-   public ArrayList< ArrayList< ArrayList<Float>>> loadWorld(File world_file) {
-     //TBC
-     return new ArrayList< ArrayList< ArrayList<Float>>>();
-   }
+   public ArrayList< ArrayList< ArrayList<Float>>> loadWorld(String world_filepath) throws IOException {
+    BufferedReader br = new BufferedReader(new FileReader(world_filepath));
+    String text;
+    
+    // - to separate between columns in a row
+    // -- to separate between rows in a table
+    // --- to seperate between different tables
+    
+    ArrayList< ArrayList< ArrayList<Float>>> grid = new ArrayList< ArrayList< ArrayList<Float>>>();
+    //all tables will have equal num of rows and columns
+    
+    text = br.readLine(); // will not have any \n or \r to terminate line, so this reads the whole file
+    
+    //pretend this is the whole file, with z size = 2, x size = 2, y size = 3
+    // 1-2-3--3-2-1---4-5-6--6-5-4
+    
+    // [1-2-3--3-2-1---4-5-6--6-5-4] grid
+    // [1-2-3--3-2-1], [4-5-6--6-5-4] three
+    // [1-2-3], [3-2-1]two
+    // [1], [2] one
+    
+    
+    String[] three = text.split("---");
+    
+    
+    //split 3d into 2d
+    for (int z=0; z<three.length; z++) {
+      grid.add(new ArrayList<  ArrayList<Float>>()); //2D
+      // 1-2-3--3-2-1
+      String[] two = three[z].split("--");
+      
+
+      //split 2d into 1d
+      for (int x=0; x<two.length; x++) {
+        
+        //String m = two[x];
+        grid.get(z).add(new ArrayList<Float>()); //1D ARRAY
+        // 1-2-3
+        String[] one = two[x].split("-");
+        
+        
+        //split 1d into elements
+        for (int y=0; y<one.length; y++) { //element
+          //1
+          
+          //String n = one[x];
+          //add elements to float array
+          String key = one[y];
+          float value = dict.get(key);//Float.parseFloat(num);
+          grid.get(z).get(x).add(value);
+          
+          System.out.println("x: "+x+", y: "+y+", z: "+z);//+",    key:value -> "+key+":"+value );
+          
+          //now, do i draw here, or simply load and then call createWorld(grid)?
+        }
+      }
+      System.out.println();
+    }
+    
+    br.close();
+    //now, i have loaded the individual values in, now time for dict and key-value pairs
+    
+    return grid;
+    
+  }
    
    
    
@@ -92,6 +153,7 @@
    }
    
    
+   /*
    public void drawGrid(ArrayList< ArrayList< ArrayList<Float>>> threeD_grid) {
      
      
@@ -139,6 +201,7 @@
      
      
    }
+   //*/
    
    
    public void TwoDimensional_Draw(ArrayList< ArrayList<Float>> grid, int z_index) {

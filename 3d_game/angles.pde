@@ -3,8 +3,6 @@
 
 //it is correct up to 12 decimal points of accuracy, which is at least equivalent to (1/ 10billion) if im correct
 
-import java.lang.Math;
-import java.util.ArrayList;
 
 public class Angles {
   

@@ -1,11 +1,13 @@
- int k;
+
+
+int k;
 int colour;
 
 void setup() {
   
   size(800, 800);
   //x, y, z co-ordinates
-  player = new Player(7, 5, 6);
+  player = new Player(7, 5, 12);
   w = new World();
   d = new Display();
   ang = new Angles();
@@ -17,31 +19,35 @@ void setup() {
   PREVIOUS_MOUSE_Y = SCREEN_Y/2;
   
   int j=9;
-  int i=9;
+  int i=99;
   
   if (i==j) { 
   w.setGrid(w.createGrid(11, 11, 26));
   colour=#0000FF;
   
+  w.editGrid( (int)player.xpos+2, (int)player.xpos+3, (int)player.ypos+2, (int)player.ypos+3, (int)player.zpos+4, (int)player.zpos+5, #00AA00);
+  //w.editGrid( 7, 8, 5, 6, 11, 12, #00AA00);
   createCorridor();
   
   //w.editGrid(0, 1, 0, 2, 10, 12, #AAAA00);
   
-  d.findDegreesToPixelsRatio();
+  findDegreesToPixelsRatio();
+  
   }
   k=0;
    //init();
-   frameRate(16); //<>//
+   frameRate(1); //<>//
 }
 
 void draw() {
-  background(#444444);
+  //background(#ADD8E6);
+  background(#777777);
   
   d.drawQuadrants();
   fill(#00A900);
 
   
-  w.ThreeDimensional_Draw( w.getGrid() );
+  //w.ThreeDimensional_Draw( w.getGrid() );
   //w.editGrid(0, k, 0, 50, 14, 15, #0000FF);
   //HAs_of_cube_line_test();
   //ArrayList<String> block_quadrant = player.findQuadrantOfBlock(bx, by);
@@ -61,7 +67,12 @@ void draw() {
   //*/
   
   //k++;
-  
+  try {
+  testwrite();
+  }
+  catch(IOException e) {
+    e.printStackTrace();
+  }
   ///*
    //fill(#EEA900);
    //d.drawCube(6, 3, 13);
@@ -81,5 +92,5 @@ void draw() {
   //System.out.println(calcNearHorizontalAngles(player.xpos+5, player.ypos+1, player.zpos+8, "Z Axis"));
 
 
-  //noLoop();
+  noLoop();
 }

@@ -33,14 +33,13 @@ class Display {
 
     //if the side of the block isn't covered by another block
     boolean covered = player.isQuadCovered( bx, by, bz, direction, block_quadrant);
-    ArrayList< ArrayList<Float>> angles;// = new ArrayList< ArrayList<Float>>();
+    //ArrayList< ArrayList<Float>> angles;// = new ArrayList< ArrayList<Float>>();
+    println(bx, by, bz, covered, direction);
     
     
     if (!covered) {
-      angles = ang.calcAngles(bx, by, bz, direction, block_quadrant);
-      //ang.adjustAngles(angles, block_quadrant);
-      //if (d.blockIsOnScreen(angles, block_quadrant) ) {
-        
+       ArrayList< ArrayList<Float>> angles = ang.calcAngles(bx, by, bz, direction, block_quadrant);
+      
         float[] coords = findQuadCoords(angles, block_quadrant, direction);
         quad(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7]);
       

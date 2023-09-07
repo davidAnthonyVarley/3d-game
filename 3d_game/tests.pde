@@ -46,7 +46,7 @@ void createCorridor() {
   w.editGrid(4, 11, 1, 2, 14, 24, #FF0000);
   
   //back
-  w.editGrid(3, 10, 1, 10, 23, 24, #FF0000);
+  w.editGrid(3, 10, 1, 10, 23, 24, dict.get("4"));
   
   
 }
@@ -136,32 +136,60 @@ void YA_HAs_test() {
 }
 
 void testwrite() throws IOException {
-  //BufferedWriter bw;
-  //try {
-     //bw = //new BufferedWriter( new FileWriter("wwworld.txt")); //saved_worlds\\basic_world
-  //}
-  //catch (FileNotFoundException e) {
+  
+  
+  int z_one=0;
+  int z_two=15;
+  
+  int x_one=0;
+  int x_two=15;
+  
+  int y_one=0;
+  int y_two=1;
+  
+  
+  
+  
+  
+    String data="15-5-15,";
     
- // }
-    //bw.write("1hey");
-    //bw.write(" 2there");
-    String data="";
-    
-    for (int i=0; i<10; i++) {
-      //bw.write("1-2-3--2-1-2--3-2-1");
-      data+="1-2-3--2-1-2--3-2-1";
-      if (i!=9) {
-        //bw.write("---");
-        data+="---";
+    for (int twoD=z_one; twoD<z_two; twoD++) {
+      //twoD is the 2d array pointer
+      
+      for (int oneD=x_one; oneD<x_two; oneD++) {
+        //oneD is the 1d array pointer
+        
+        for (int i=y_one; i<y_two; i++) {
+          //i is individual index in array
+          
+          data+="4-";
+        }
+        if (oneD!=(x_two-1)) {
+          data+="-";
+        }
       }
+      if (twoD!=(z_two-1)) {
+          data+="--";
+        }
+      
+      println("\n");
     }
+    
+    
+    
+    
     String d[] = {data};
     
-    saveStrings("wwworld.txt", d);
+    saveStrings("flat.txt", d);
     
     System.out.println("writen");
     
     //bw.close();
+  }
+  
+  
+  void createFloor() {
+    w.editGrid(0, 11, 0, 1, 0, 11, dict.get("4"));
   }
 
 

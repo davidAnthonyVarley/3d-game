@@ -40,24 +40,48 @@
           //println(twoD+" "+oneD+" "+i);
         }
       }
-      println("\n");
+      //println("\n");
     }
     
      return world;
    }
    
    public ArrayList< ArrayList< ArrayList<Float>>> loadWorld(String world_filepath) throws IOException {
-    BufferedReader br = new BufferedReader(new FileReader(world_filepath));
-    String text;
+    
+     //load txt file with 1 line
+    String[] line = loadStrings(world_filepath);
+    String data = line[0];
+    println(data);
+    
+    //split into data and dimensions
+    String[] split = data.split(",");
+    String dimensions = split[0];
+    String text = split[1];
+    
+    
+    //println(dimensions);
+    //println(text);
+    
+    String[] d = dimensions.split("-");
+    
+    //println("dimensions: "+ dimensions);//+" "+ d[1]+" "+d[2]);
+    
+    
+    int x_length = Integer.parseInt(d[0]);
+    int y_width = Integer.parseInt(d[1]);
+    int z_depth = Integer.parseInt(d[2]);
+    
+    
+    
     
     // - to separate between columns in a row
     // -- to separate between rows in a table
     // --- to seperate between different tables
     
-    ArrayList< ArrayList< ArrayList<Float>>> grid = new ArrayList< ArrayList< ArrayList<Float>>>();
+    ArrayList< ArrayList< ArrayList<Float>>> grid = createGrid(x_length, y_width, z_depth);
     //all tables will have equal num of rows and columns
     
-    text = br.readLine(); // will not have any \n or \r to terminate line, so this reads the whole file
+    //text = br.readLine(); // will not have any \n or \r to terminate line, so this reads the whole file
     
     //pretend this is the whole file, with z size = 2, x size = 2, y size = 3
     // 1-2-3--3-2-1---4-5-6--6-5-4
@@ -73,7 +97,7 @@
     
     //split 3d into 2d
     for (int z=0; z<three.length; z++) {
-      grid.add(new ArrayList<  ArrayList<Float>>()); //2D
+      //grid.add(new ArrayList<  ArrayList<Float>>()); //2D
       // 1-2-3--3-2-1
       String[] two = three[z].split("--");
       
@@ -82,7 +106,7 @@
       for (int x=0; x<two.length; x++) {
         
         //String m = two[x];
-        grid.get(z).add(new ArrayList<Float>()); //1D ARRAY
+        //grid.get(z).add(new ArrayList<Float>()); //1D ARRAY
         // 1-2-3
         String[] one = two[x].split("-");
         
@@ -93,21 +117,24 @@
           
           //String n = one[x];
           //add elements to float array
-          String key = one[y];
-          float value = dict.get(key);//Float.parseFloat(num);
-          grid.get(z).get(x).add(value);
+          String keyy = one[y];
+          float value = dict.get(keyy);//Float.parseFloat(num);
           
-          System.out.println("x: "+x+", y: "+y+", z: "+z);//+",    key:value -> "+key+":"+value );
+          
+          grid.get(z).get(x).set(y, value);
+          
+          //System.out.println("x: "+x+", y: "+y+", z: "+z+",    key:value -> "+key+":"+value );
           
           //now, do i draw here, or simply load and then call createWorld(grid)?
         }
       }
-      System.out.println();
+      //System.out.println();
     }
     
-    br.close();
+    //br.close();
     //now, i have loaded the individual values in, now time for dict and key-value pairs
     
+    //println(grid);
     return grid;
     
   }
@@ -133,7 +160,7 @@
           //println(twoD+" "+oneD+" "+i+" has been changed to "+colour);
         }
       }
-      println("\n");
+      //println("\n");
     }
      
    }
@@ -203,6 +230,31 @@
    }
    //*/
    
+   /*
+   //dont need to ret anything as passing in reference
+   void setGridSize(ArrayList< ArrayList< ArrayList<Float>>> grid, float x_length, float y_width, float z_depth) {
+     
+     for (int twoD=0; twoD<z_depth; twoD++) {
+      //twoD is the 2d array pointer
+      grid.add(new ArrayList< ArrayList<Float>>());
+      
+      for (int oneD=0; oneD<x_length; oneD++) {
+        //oneD is the 1d array pointer
+        grid.get(twoD).add(new ArrayList<Float>());
+        
+        for (int i=0; i<y_width; i++) {
+          //i is individual index in array
+          
+          this.getGrid().get(twoD).get(oneD).set(i, colour);
+          //this.get(twoD).get(oneD).add(colours[0]);
+          //println(twoD+" "+oneD+" "+i+" has been changed to "+colour);
+        }
+      }
+      println("\n");
+    }
+     
+   }
+   */
    
    public void TwoDimensional_Draw(ArrayList< ArrayList<Float>> grid, int z_index) {
      
@@ -247,7 +299,15 @@
    
    void check_space(float block_colour, float x, float y, float z) {
         //if the current block isn't empty, then draw it
+        
+        //println(x, y, z, block_colour);
         if (  block_colour!=EMPTY ) {
+          
+          
+          //float f = block_colour;
+          //int i = (int) f;
+          
+          //println(i);
           
           fill( (int) block_colour);
           d.drawCube(x, y, z);

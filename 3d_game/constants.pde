@@ -2,6 +2,7 @@
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,6 +19,7 @@ static Player player;
 World w;
 Display d;
 static Angles ang;
+Key_Value kv;
 
 //perimeter length
 //float perim;
@@ -41,4 +43,5 @@ float PREVIOUS_MOUSE_Y;
 
 float DEGREES_TO_PIXELS_RATIO;
 
-HashMap<String, Float> dict;
+Map<String, Float> dict;
+ArrayList<Key_Value> kv_dict;

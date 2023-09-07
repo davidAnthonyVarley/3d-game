@@ -46,6 +46,8 @@ class Player {
     this.zpos = z;
   }
   
+  //boolean checkIfInGrid()
+  
   
   public  ArrayList<String> findQuadrantOfBlock(float bx, float by) {
     String left_or_right="";
@@ -82,6 +84,8 @@ class Player {
     //if mouse is on screen
     if (0<x && x<SCREEN_X) {
       if (0<y && y<SCREEN_Y) {
+        noCursor();
+        
         float hori_difference = x - PREVIOUS_MOUSE_X;
         float verti_difference = y - PREVIOUS_MOUSE_Y;
         
@@ -110,9 +114,9 @@ class Player {
     
     //------------------------------------------
     if (direction.equals("X Axis")) {
-      if (bx!=0 && (bx!=w.getGrid().get(0).size()) ) {
+      //if (bx!=0 && (bx!=w.getGrid().get(0).size()) ) {
         bx = block_quadrant.get(0).equals("Right") ? bx-1 : bx+1;
-      }
+      //}
     }
     //------------------------------------------
     
@@ -120,9 +124,9 @@ class Player {
     
     //------------------------------------------
     else if (direction.equals("Y Axis")) {
-      if (by!=0 && (by!=w.getGrid().get(0).get(0).size()) ) {
+      //if (by!=0 && (by!=w.getGrid().get(0).get(0).size()) ) {
         by = block_quadrant.get(1).equals("Higher") ? (by-1) : by+1;
-      }
+      //}
     }
     //------------------------------------------
     
@@ -137,6 +141,10 @@ class Player {
     //------------------------------------------
     
     float block = w.getBlock(bx, by, bz);
+    //println( block, EMPTY, "-> if block==empty:", block==EMPTY);
+    //boolean res = (block!=EMPTY);
+
+
 
     if (block==EMPTY) {
       return false;
@@ -144,6 +152,27 @@ class Player {
     else {
       return true;
     }
+    
+  }
+  
+  
+  void drawCrossHairs() {
+    noStroke();
+    //int x = mouseX;
+    //int y = mouseY;
+    
+    
+    fill(0);//#BBBBBB);
+    int a = 2;
+    a*=2;
+    int b = a*2;
+    int c = a*4;
+    
+    //down
+    rect(width/2 - a, height/2 - b, b, c);
+    //accross
+    rect(width/2 - b, height/2 - a, c, b);
+    
     
   }
 
